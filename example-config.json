@@ -1,0 +1,67 @@
+{
+    "name": "Homeqtt",
+    "mqttOptions": {
+        "url": "mqtt://192.168.1.40:1883"
+    },
+    "topics": {
+        "sensorTopic": "tele/rfbridge/RESULT",
+        "setTargetStateTopic": "alarm/target",
+        "getCurrentStateTopic": "alarm/current"
+    },
+    "alarmSettings": {
+        "targetStates": {
+            "stayArm": true,
+            "awayArm": true,
+            "nightArm": false
+        }
+    },
+    "sensors": [
+        {
+            "sensorType": "pirSensor",
+            "sensorLocation": "Front Room PIR",
+            "sensorMQTTCode": "F4299E",
+            "sensorEnabled": true,
+            "sensorAllowStay": false,
+            "sensorAllowAway": true,
+            "sensorAllowNight": true
+        },
+        {
+            "sensorType": "pirSensor",
+            "sensorLocation": "Hallway PIR",
+            "sensorMQTTCode": "F3A6CE",
+            "sensorEnabled": false,
+            "sensorAllowStay": false,
+            "sensorAllowAway": true,
+            "sensorAllowNight": true
+        },
+        {
+            "sensorType": "pirSensor",
+            "sensorLocation": "Master Bedroom PIR",
+            "sensorMQTTCode": "F8B81E",
+            "sensorEnabled": true,
+            "sensorAllowStay": false,
+            "sensorAllowAway": true,
+            "sensorAllowNight": false
+        },
+        {
+            "sensorType": "contactSensor",
+            "sensorLocation": "Front Door",
+            "sensorMQTTCode": "092F73",
+            "sensorEnabled": true,
+            "sensorAllowStay": true,
+            "sensorAllowAway": true,
+            "sensorAllowNight": true
+        },
+        {
+            "sensorType": "contactSensor",
+            "sensorLocation": "Back Door",
+            "sensorMQTTCode": "08F5A3",
+            "sensorEnabled": true,
+            "sensorAllowStay": true,
+            "sensorAllowAway": true,
+            "sensorAllowNight": true
+        }
+    ],
+    "debug": true,
+    "accessory": "homebridge-homeqtt-alarm"
+}

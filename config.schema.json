@@ -1,0 +1,266 @@
+{
+	"pluginAlias": "homebridge-homeqtt-alarm",
+	"pluginType": "accessory",
+	"singular": true,
+	"headerDisplay": "MQTT must be installed on your system",
+	"footerDisplay": "For help please see the [wiki](https://github.com/nzbullet/homebridge-homeqtt-alarm/wiki).",
+	"schema": {
+		"name": {
+			"title": "Name",
+			"type": "string",
+			"default": "Homeqtt",
+			"required": true
+		},
+		"mqttOptions": {
+			"title": "MQTT Options",
+			"type": "object",
+			"properties": {
+				"url": {
+					"title": "MQTT Broker URL:Port",
+					"type": "string",
+					"description": "e.g. mqtt://192.168.1.xxx:1883",
+					"required": true
+				},
+				"username": {
+					"title": "MQTT Username",
+					"type": "string",
+					"description": "Your MQTT Broker username (optional)"
+				},
+				"password": {
+					"title": "MQTT Password",
+					"type": "string",
+					"description": "Your MQTT Broker password (optional)"
+				}
+			}
+		},
+		"topics": {
+			"title": "MQTT Topics",
+			"type": "object",
+			"properties": {
+				"sensorTopic": {
+					"title": "MQTT Sensor Topic",
+					"type": "string",
+					"default": "tele/rfbridge/RESULT",
+					"description": "Topic used to check for sensor activity.",
+					"required": true
+				},
+				"setTargetStateTopic": {
+					"title": "Set Target State Topic",
+					"type": "string",
+					"default": "alarm/target",
+					"description": "Topic published when the target alarm state is changed in HomeKit.",
+					"required": true
+				},
+				"getCurrentStateTopic": {
+					"title": "Get Current State Topic",
+					"type": "string",
+					"default": "alarm/current",
+					"description": "Topic published to notify HomeKit of the current or triggered alarm state.",
+					"required": true
+				}
+			}
+		},
+		"alarmSettings": {
+			"title": "Alarm Settings",
+			"type": "object",
+			"properties": {
+				"targetStates": {
+					"title": "Target States (Enable/Disbale)",
+					"type": "object",
+					"properties": {
+						"stayArm": {
+							"title": "Stay Arm",
+							"type": "boolean",
+							"default": true,
+							"description": "Used when the home is occupied and residents are active."
+						},
+						"awayArm": {
+							"title": "Away Arm",
+							"type": "boolean",
+							"default": true,
+							"description": "Used when the home is unoccupied."
+						},
+						"nightArm": {
+							"title": "Night Arm",
+							"type": "boolean",
+							"default": true,
+							"description": "Used when the home is occupied and residents are sleeping."
+						}
+					}
+				}
+			}
+		},
+		"sensors": {
+			"type": "array",
+			"items": {
+				"title": "Sensor Config",
+				"type": "object",
+				"properties": {
+					"sensorType": {
+						"title": "Sensor Type",
+						"type": "string",
+						"oneOf": [
+							{
+								"title": "Contact Sensor",
+								"enum": [
+									"contactSensor"
+								]
+							},
+							{
+								"title": "PIR",
+								"enum": [
+									"pirSensor"
+								]
+							}
+						],
+						"required": true
+					},
+					"sensorLocation": {
+						"title": "Sensor Location",
+						"type": "string",
+						"required": true
+					},
+					"sensorMQTTCode": {
+						"title": "Sensor MQTT Code",
+						"type": "string",
+						"required": true
+					},
+					"sensorEnabled": {
+						"title": "Enable Sensor",
+						"type": "boolean",
+						"default": true,
+						"description": "Globally enable/disable this sensor"
+					},
+					"sensorAllowStay": {
+						"title": "Allow Sensor for Stay Arm?",
+						"type": "boolean",
+						"default": true,
+						"description": "Usually ONLY entry-point sensors (e.g. doors and windows)"
+					},
+					"sensorAllowAway": {
+						"title": "Allow Sensor for Away Arm?",
+						"type": "boolean",
+						"default": true,
+						"description": "Usually ALL sensors"
+					},
+					"sensorAllowNight": {
+						"title": "Allow Sensor for Night Arm?",
+						"type": "boolean",
+						"default": true,
+						"description": "Usually ALL entry-point sensors and SOME internal sensors"
+					}
+				}
+			}
+		},
+		"debug": {
+			"title": "Additional Logging?",
+			"type": "boolean",
+			"default": true,
+			"description": "Additional logging (seriously... all of the logging)"
+		}
+	},
+	"layout": [
+		{
+			"type": "fieldset",
+			"items": [
+				"name"
+			]
+		},
+		{
+			"type": "fieldset",
+			"expandable": true,
+			"title": "MQTT Options",
+			"items": [
+				{
+					"type": "flex",
+					"flex-flow": "row wrap",
+					"items": [
+						{
+							"type": "flex",
+							"items": [
+								"mqttOptions.url"
+							]
+						}
+					]
+				},
+				{
+					"type": "flex",
+					"flex-flow": "row wrap",
+					"items": [
+						{
+							"type": "flex",
+							"flex-flow": "column",
+							"items": [
+								"mqttOptions.username"
+							]
+						},
+						{
+							"type": "flex",
+							"flex-flow": "column",
+							"items": [
+								"mqttOptions.password"
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "fieldset",
+			"expandable": true,
+			"title": "MQTT Topics",
+			"items": [
+				"topics.sensorTopic",
+				"topics.setTargetStateTopic",
+				"topics.getCurrentStateTopic"
+			]
+		},
+		{
+			"type": "fieldset",
+			"expandable": true,
+			"title": "Alarm Settings",
+			"items": [
+				"alarmSettings.targetStates",
+				"alarmSettings.targetStates.stayArm",
+				"alarmSettings.targetStates.awayArm",
+				"alarmSettings.targetStates.nightArm"
+			]
+		},
+		{
+			"type": "fieldset",
+			"expandable": true,
+			"title": "Sensors",
+			"items": [
+				{
+					"type": "array",
+					"key": "sensors",
+					"nodescription": true,
+					"notitle": true,
+					"items": [
+						{
+							"type": "fieldset",
+							"expandable": true,
+							"expanded": true,
+							"title": "Sensor",
+							"items": [
+								"sensors[].sensorType",
+								"sensors[].sensorLocation",
+								"sensors[].sensorMQTTCode",
+								"sensors[].sensorEnabled",
+								"sensors[].sensorAllowStay",
+								"sensors[].sensorAllowAway",
+								"sensors[].sensorAllowNight"
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "fieldset",
+			"items": [
+				"debug"
+			]
+		}
+	]
+}

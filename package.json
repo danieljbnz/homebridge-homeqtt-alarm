@@ -1,0 +1,37 @@
+{
+  "author": "Daniel Burgess",
+  "bugs": {
+    "url": "https://github.com/nzbullet/homebridge-homeqtt-alarm/issues"
+  },
+  "dependencies": {
+    "mqtt": ">=2.18.8"
+  },
+  "deprecated": false,
+  "description": "Homebridge MQTT Security Alarm Plugin",
+  "engines": {
+    "homebridge": ">=0.4.0",
+    "node": ">4.0.0"
+  },
+  "homepage": "https://github.com/nzbullet/homebridge-homeqtt-alarm",
+  "keywords": [
+    "homeqtt",
+    "homebridge-plugin",
+    "MQTT",
+    "homekit",
+    "Siri",
+    "IoT",
+    "ESPurna",
+    "tasmota",
+    "alarm",
+    "security",
+    "security system"
+  ],
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "name": "homebridge-homeqtt-alarm",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nzbullet/homebridge-homeqtt-alarm.git"
+  },
+  "version": "1.0.6"
+}
