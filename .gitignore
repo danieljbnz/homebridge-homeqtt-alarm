@@ -4,3 +4,6 @@ node_modules
 # Optional npm cache directory
 .npm
 .npmignore
+
+#Apple Hidden DS_STORE Files
+.DS_Store
