@@ -1,5 +1,6 @@
 var Service, Characteristic;
 var mqtt = require("mqtt");
+const packageJson = require('./package.json')
 
 module.exports = function (homebridge) {
 	Service = homebridge.hap.Service;
@@ -14,7 +15,6 @@ function homeqttAlarmAccessory(log, config) {
 
 	// System Settings
 	this.manufacturer = '@nzbullet'
-	this.serialNumber = '1.0.8'
 	this.model = 'Homeqtt Alarm'
 
 	// State and Command Payloads
@@ -223,7 +223,7 @@ homeqttAlarmAccessory.prototype = {
 		var informationService = new Service.AccessoryInformation();
 		informationService.setCharacteristic(Characteristic.Manufacturer, this.manufacturer);
 		informationService.setCharacteristic(Characteristic.Model, this.model);
-		informationService.setCharacteristic(Characteristic.SerialNumber, this.serialNumber);
+		informationService.setCharacteristic(Characteristic.SerialNumber, packageJson.version);
 
 		this.securityService = new Service.SecuritySystem(this.name);
 		this.securityService
