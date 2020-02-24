@@ -15,12 +15,12 @@
   "homepage": "https://github.com/nzbullet/homebridge-homeqtt-alarm",
   "keywords": [
     "homeqtt",
+    "homeqtt-alarm",
     "homebridge-plugin",
     "MQTT",
     "homekit",
     "Siri",
     "IoT",
-    "ESPurna",
     "tasmota",
     "alarm",
     "security",
@@ -33,5 +33,5 @@
     "type": "git",
     "url": "git+https://github.com/nzbullet/homebridge-homeqtt-alarm.git"
   },
-  "version": "1.0.6"
+  "version": "1.0.7"
 }

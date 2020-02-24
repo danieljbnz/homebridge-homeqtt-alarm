@@ -14,7 +14,7 @@ function homeqttAlarmAccessory(log, config) {
 
 	// System Settings
 	this.manufacturer = '@nzbullet'
-	this.serialNumber = '1.0.6'
+	this.serialNumber = '1.0.7'
 	this.model = 'Homeqtt Alarm'
 
 	// State and Command Payloads
