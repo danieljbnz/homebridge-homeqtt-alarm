@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Time delay before disarm
 - Option to enable blinking light when armed
 - Option to enable siren (enable, disable, duration)
+- Option to override topic per sensor (would default to main sensorTopic). This allows you to get sensor activity from multiple topics.
 
 ## v1.0.9 - 2020-02-25
 ### Changed
