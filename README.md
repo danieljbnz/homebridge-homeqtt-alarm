@@ -7,7 +7,7 @@
 [![Homebridge](https://img.shields.io/badge/Platform-Homebridge-blueviolet)](https://homebridge.io/)
 [![MQTT](https://img.shields.io/badge/Platform-MQTT-blueviolet)](http://mqtt.org/)
 
-![Homeqtt_Alarm](../media/homeqtt_alarm.png?raw=true)
+![Homeqtt_Alarm](../media/homeqtt_logo.png?raw=true)
 
 Homebridge MQTT Security Alarm Plugin for HomeKit.
 
