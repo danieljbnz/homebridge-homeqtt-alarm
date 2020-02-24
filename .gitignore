@@ -1,6 +1,9 @@
 # Dependency directory
 node_modules
 
+# Media Directory
+media
+
 # Optional npm cache directory
 .npm
 .npmignore
