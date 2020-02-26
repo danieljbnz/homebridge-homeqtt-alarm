@@ -23,7 +23,7 @@ This plugin sets up an alarm in HomeKit, then allows you to connect Homebridge t
 
 Note: NFC Tag Support (arm/disarm the without using the Home app) is not a feature of this plugin but can natively be activated through iOS Shortcuts. <sup>**</sup>
 
-    <sup>**Requires iOS 13 or above and Shortcuts app is required to create this automation.</sup>
+<sup>**Requires iOS 13 or above and Shortcuts app is required to create this automation.</sup>
 
 # Prerequisites 
 1. You have [Homebridge](https://github.com/nfarina/homebridge  "Homebridge") Installed
