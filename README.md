@@ -81,7 +81,7 @@ Once the plugin is installed you will be presented with the settings page to pop
 ## Manual Configuration
 If you are configuring the system manually you need to add an accessory block to your config.json:
 
-<sup>Note: "accessory"** must be set to *homebridge-homeqtt-alarm* in your config file or the plugin will not work.</sup>
+<sup>Note: "accessory" **must** be set to *homebridge-homeqtt-alarm* in your config file or the plugin will not work.</sup>
 ```json
 {
     "name": "Homeqtt",
