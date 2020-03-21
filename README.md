@@ -159,3 +159,4 @@ This is a basic example. For a fully populated example see the [example-config.j
 
 # Planned Features
 See the [Changelog](https://github.com/nzbullet/homebridge-homeqtt-alarm/blob/master/CHANGELOG.md) for upcoming/planned features. 
+ 

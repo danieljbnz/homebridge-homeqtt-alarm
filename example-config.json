@@ -14,7 +14,7 @@
         "targetStates": {
             "stayArm": true,
             "awayArm": true,
-            "nightArm": false
+            "nightArm": true
         }
     },
     "sensors": [

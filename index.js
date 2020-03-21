@@ -34,7 +34,7 @@ function homeqttAlarmAccessory(log, config) {
 	this.name = config.name // Name of sensor in Homekit (Defaults to 'Homeqtt')
 	this.sensors = config.sensors // All Sensors Object
 	this.targetStates = config.alarmSettings.targetStates // Target States
-	this.keyfob = config.keyfob // Keyfob
+	this.keyfob = config.keyfob // Keyfob object
 
 	// Keyfob
 	if (this.keyfob.keyfobEnabled === true) {
