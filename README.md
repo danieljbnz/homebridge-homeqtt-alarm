@@ -20,11 +20,12 @@ This plugin sets up an alarm in HomeKit, then allows you to connect Homebridge t
 - Give sensors a location (i.e. a nice name)
 - Globally enable/disable individual sensors
 - Set sensors for only certain states
-- Enable/Disable Siren
-- Set Away Arm, Stay Arm, Disarm, Trigger (SOS) from Keyfob
+- Enable/Disable siren
+- Set Away Arm, Stay Arm, Disarm from keyfob
+- Trigger the Homekit alarm with the SOS button on the keyfob
 
 # Recommended Hardware
-- [Sonoff RF Bridge](https://sonoff.tech/product/accessories/433-rf-bridge  "Sonoff RF Bridge"): Flashed with Tasmota and used to receive 433Mhz RF Messages from sensors and convert to MQTT.
+- [Sonoff RF Bridge](https://sonoff.tech/product/accessories/433-rf-bridge  "Sonoff RF Bridge"): Flashed with Tasmota. Receives 433Mhz RF Messages from sensors and sends to MQTT.
 - [Indoor PIR Sensor](https://www.banggood.com/SONOFF-PIR2-Wireless-Infrared-Detector-Dual-Infrared-PIR-Motion-Sensor-Module-p-1227759.html "Sonoff Indoor PIR2 Sensor"): 433Mhz Wireless Indoor PIR - Model CT60
 - [Outdoor PIR Sensor](https://www.banggood.com/PIR-Outdoor-Wireless-433-Waterproof-Infrared-Detector-Dual-Infrared-Motion-Sensor-For-Smart-Home-Security-Alarm-System-Work-With-SONOFF-RF-Bridge-433-p-1534707.html "Sonoff Outdoor PIR Sensor"): 433Mhz Wireless **Waterproof** Outdoor PIR - Model CT70
 - [Digoo Door and Window Sensor](https://www.banggood.com/DIGOO-433MHz-New-Door-Window-Alarm-Sensor-for-HOSA-HAMA-Smart-Home-Security-System-Suit-Kit-p-1388985.html "Digoo Door and Window Sensor"): DIGOO 433MHz Door & Window Alarm Sensor
@@ -33,7 +34,7 @@ This plugin sets up an alarm in HomeKit, then allows you to connect Homebridge t
 
 You need to link your Keyfob to both your Sonoff RF Bridge and the Siren. 
 - Once linked to the RF Bridge you will be able to receive MQTT codes on the same topic [as other sensors] when you press a button, allowing you to arm and disarm from the keyfob.
-    - To program link the remote to the RF Bridge publish the value `2` to `cmnd/rfbridge/rfkeyX` (replace X with a value from 1-4) then press the button on the remote you wish to link (e.g. Away Arm or SOS etc). 
+    - To link the remote to the RF Bridge publish the value `2` to `cmnd/rfbridge/rfkeyX` (replace X with a value from 1-4) then press the button on the remote you wish to link (e.g. Away Arm or SOS etc). 
 - Once linked to the siren you will also be able to set and unset the siren from either the keyfob or Homekit. 
 
 Note: NFC Tag Support (arm/disarm the without using the Home app) is not a feature of this plugin but can natively be activated through iOS Shortcuts. <sup>**</sup>
@@ -56,12 +57,12 @@ There are two methods to this madness...
 2. Select **Plugins** and search for **Homeqtt Alarm**
 3. Click **Install**
 4. Drink your coffee
-5. [Configure](#Config-UI-X-Configuration) MQTT, Topics, Alarm Settings and Sensors
+5. [Configure](#Config-UI-X-Configuration) MQTT, Alarm Topics, Alarm Settings, Sensors and Keyfob
 
 ## Manual Installation via CLI
 1. Drink a lot of coffee
 2. From CLI: `npm install -g homebridge-homeqtt-alarm` (note: you may need to use `sudo`)
-3. [Configure](#manual-configuration) MQTT, Topics, Alarm Settings and Sensors
+3. [Configure](#manual-configuration) MQTT, Alarm Topics, Alarm Settings, Sensors and Keyfob
 
 # Configuration
 Once the installation is complete you will need to configure the plugin.
@@ -71,37 +72,37 @@ Once the plugin is installed you will be presented with the settings page to pop
 
 ![Homebridge_Settings](../media/homebridge_settings.png?raw=true)
 
-| Settings Option             | config.json Value    | Required | Description                                                               | Type     | Default / Example Value  |
-|-----------------------------|----------------------|:--------:|---------------------------------------------------------------------------|:--------:|--------------------------|
-| Name                        | name                 | Yes      | Name of the alarm in HomeKit                                              | String   | Homeqtt                  |
-| MQTT Broker URL:Port        | url                  | Yes      | URL and Port of your MQTT broker                                          | URL      | mqtt://URL:PORT          |
-| MQTT Username               | username             | No       | Your MQTT Broker username (optional)                                      | String   | username                 |
-| MQTT Password               | password             | No       | Your MQTT Broker password (optional)                                      | String   | password                 |
-| MQTT Sensor Topic           | sensorTopic          | Yes      | Topic used to check for sensor activity                                   | String   | tele/rfbridge/RESULT     |
-| Set Target State Topic      | setTargetStateTopic  | Yes      | Topic published when the target alarm state is changed in HomeKit         | String   | alarm/target             |
-| Get Current State Topic     | getCurrentStateTopic | Yes      | Topic published to notify HomeKit of the current or triggered alarm state | String   | alarm/current            |
-| Stay Arm                    | stayArm              | No       | Used when the home is occupied and residents are active                   | Boolean  | true / false             |
-| Away Arm                    | awayArm              | No       | Used when the home is unoccupied                                          | Boolean  | true                     |
-| Night Arm                   | nightArm             | No       | Used when the home is occupied and residents are sleeping                 | Boolean  | true / false             |
-| Sensor Type                 | sensorType           | Yes      | Type of sensor                                                            | Dropdown | PIR / Contact Sensor     |
-| Sensor Location             | sensorLocation       | Yes      | Location of the sensor                                                    | String   | Front Door               |
-| Sensor MQTT Code            | sensorMQTTCode       | Yes      | Code sent to MQTT Server from sensor                                      | String   | 12345C                   |
-| Enable Sensor               | sensorEnabled        | No       | Globally enable/disable this sensor                                       | Boolean  | true / false             |
-| Allow Sensor for Stay Arm?  | sensorAllowStay      | No       | Usually ONLY entry-point sensors (e.g. doors and windows)                 | Boolean  | true / false             |
-| Allow Sensor for Away Arm?  | sensorAllowAway      | No       | Usually ALL sensors                                                       | Boolean  | true / false             |
-| Allow Sensor for Night Arm? | sensorAllowNight     | No       | Usually ALL entry-point sensors and SOME internal sensors                 | Boolean  | true / false             |
-| Have Keyfob?               | keyfobEnabled        | No       | Enable or Disable a Keyfob                                                | Boolean  | true / false             |
-| Keyfob Away Arm Topic       | keyfobAwayArmTopic   | No       | Topic published to notify HomeKit of a keyfob Away Arm button press       | String   | cmnd/rfbridge/rfkey1     |
-| Keyfob Stay Arm Topic       | keyfobStayArmTopic   | No       | Topic published to notify HomeKit of a keyfob Stay Arm button press       | String   | cmnd/rfbridge/rfkey2     |
-| Keyfob Disarm Topic         | keyfobDisarmTopic    | No       | Topic published to notify HomeKit of a keyfob Disarm button press         | String   | cmnd/rfbridge/rfkey3     |
-| Keyfob SOS Topic            | keyfobSOSTopic       | No       | Topic published to notify HomeKit of a keyfob SOS button press            | String   | cmnd/rfbridge/rfkey4     |
-| Keyfob Away Arm Code        | keyfobAwayArmCode    | No       | Enter the MQTT code received when pressing Lock button on a Keyfob        | String   | 12345L                   |
-| Keyfob Stay Arm Code        | keyfobStayArmCode    | No       | Enter the MQTT code received when pressing Stay/Home button on a Keyfob   | String   | 12345H                   |
-| Keyfob Disarm Code          | keyfobDisarmCode     | No       | Enter the MQTT code received when pressing Unlock button on a Keyfob      | String   | 12345U                   |
-| Keyfob SOS Code             | keyfobSOSCode        | No       | Enter the MQTT code received when pressing SOS button on a Keyfob         | String   | 12345S                   |
-| Enable Siren?               | sirenEnabled         | No       | Enable or Disable a Siren                                                 | Boolean  | true / false             |
-| Additional Logging?         | debug                | No       | Ahow additional logging in Homebridge logs                                | Boolean  | true / false             |
-| N/A (auto set by settings)  | accessory            | Yes      | Homebridge plugin accessory identifier                                    | String   | homebridge-homeqtt-alarm |
+| Settings Option             | config.json Value                        | Required | Description                                                               | Type     | Default / Example Value  |
+|-----------------------------|------------------------------------------|:--------:|---------------------------------------------------------------------------|:--------:|--------------------------|
+| Name                        | name                                     | Yes      | Name of the alarm in HomeKit                                              | String   | Homeqtt                  |
+| MQTT Broker URL:Port        | mqttOptions/url                          | Yes      | URL and Port of your MQTT broker                                          | URL      | mqtt://URL:PORT          |
+| MQTT Username               | mqttOptions/username                     | No       | Your MQTT Broker username (optional)                                      | String   | username                 |
+| MQTT Password               | mqttOptions/password                     | No       | Your MQTT Broker password (optional)                                      | String   | password                 |
+| MQTT Sensor Topic           | alarmTopics/sensorTopic                  | Yes      | Topic used to check for sensor activity and keyfob activity               | String   | tele/rfbridge/RESULT     |
+| Set Target State Topic      | alarmTopics/setTargetStateTopic          | Yes      | Topic published when the target alarm state is changed in HomeKit         | String   | alarm/target             |
+| Get Current State Topic     | alarmTopics/getCurrentStateTopic         | Yes      | Topic published to notify HomeKit of the current or triggered alarm state | String   | alarm/current            |
+| Stay Arm                    | alarmSettings/stayArm                    | No       | Used when the home is occupied and residents are active                   | Boolean  | true / false             |
+| Away Arm                    | alarmSettings/awayArm                    | No       | Used when the home is unoccupied                                          | Boolean  | true                     |
+| Night Arm                   | alarmSettings/nightArm                   | No       | Used when the home is occupied and residents are sleeping                 | Boolean  | true / false             |
+| Sensor Type                 | sensors/sensorType                       | Yes      | Type of sensor                                                            | Dropdown | PIR / Contact Sensor     |
+| Sensor Location             | sensors/sensorLocation                   | Yes      | Location of the sensor                                                    | String   | Front Door               |
+| Sensor MQTT Code            | sensors/sensorMQTTCode                   | Yes      | Code sent to MQTT Server from sensor                                      | String   | 12345C                   |
+| Enable Sensor               | ssensors/ensorEnabled                    | No       | Globally enable/disable this sensor                                       | Boolean  | true / false             |
+| Allow Sensor for Stay Arm?  | ssensors/ensorAllowStay                  | No       | Usually ONLY entry-point sensors (e.g. doors and windows)                 | Boolean  | true / false             |
+| Allow Sensor for Away Arm?  | sensors/sensorAllowAway                  | No       | Usually ALL sensors                                                       | Boolean  | true / false             |
+| Allow Sensor for Night Arm? | ssensors/ensorAllowNight                 | No       | Usually ALL entry-point sensors and SOME internal sensors                 | Boolean  | true / false             |
+| Have Keyfob?                | keyfob/keyfobEnabled                     | No       | Enable or Disable a Keyfob                                                | Boolean  | true / false             |
+| Keyfob Away Arm Topic       | keyfob/keyfobTopics/keyfobAwayArmTopic   | No       | Topic published to notify HomeKit of a keyfob Away Arm button press       | String   | cmnd/rfbridge/rfkey1     |
+| Keyfob Stay Arm Topic       | keyfob/keyfobTopics/keyfobStayArmTopic   | No       | Topic published to notify HomeKit of a keyfob Stay Arm button press       | String   | cmnd/rfbridge/rfkey2     |
+| Keyfob Disarm Topic         | keyfob/keyfobTopics/keyfobDisarmTopic    | No       | Topic published to notify HomeKit of a keyfob Disarm button press         | String   | cmnd/rfbridge/rfkey3     |
+| Keyfob SOS Topic            | kkeyfob/keyfobTopics/eyfobSOSTopic       | No       | Topic published to notify HomeKit of a keyfob SOS button press            | String   | cmnd/rfbridge/rfkey4     |
+| Keyfob Away Arm Code        | keyfob/keyfobMQTTCodes/keyfobAwayArmCode | No       | Enter the MQTT code received when pressing Lock button on a Keyfob        | String   | 12345L                   |
+| Keyfob Stay Arm Code        | keyfob/keyfobMQTTCodes/keyfobStayArmCode | No       | Enter the MQTT code received when pressing Stay/Home button on a Keyfob   | String   | 12345H                   |
+| Keyfob Disarm Code          | keyfob/keyfobMQTTCodes/keyfobDisarmCode  | No       | Enter the MQTT code received when pressing Unlock button on a Keyfob      | String   | 12345U                   |
+| Keyfob SOS Code             | keyfob/keyfobMQTTCodes/keyfobSOSCode     | No       | Enter the MQTT code received when pressing SOS button on a Keyfob         | String   | 12345S                   |
+| Enable Siren?               | keyfob/sirenEnabled                      | No       | Enable or Disable a Siren                                                 | Boolean  | true / false             |
+| Additional Logging?         | debug                                    | No       | Ahow additional logging in Homebridge logs                                | Boolean  | true / false             |
+| N/A (auto set by settings)  | accessory                                | Yes      | Homebridge plugin accessory identifier                                    | String   | homebridge-homeqtt-alarm |
 
 ## Manual Configuration
 If you are configuring the system manually you need to add an accessory block to your config.json:
@@ -111,7 +112,7 @@ If you are configuring the system manually you need to add an accessory block to
 {
     "name": "Homeqtt",
     "accessory": "homebridge-homeqtt-alarm",
-    "debug": true,
+    "debug": false,
     "mqttOptions": {
         "url": "mqtt://xxx.xxx.xxx.xxx:xxxx"
     },
@@ -148,25 +149,13 @@ If you are configuring the system manually you need to add an accessory block to
         }
     ],
     "keyfob": {
-        "keyfobEnabled": true,
-        "keyfobTopics":{
-            "keyfobAwayArmTopic": "cmnd/rfbridge/rfkey1",
-            "keyfobStayArmTopic": "cmnd/rfbridge/rfkey2",
-            "keyfobDisarmTopic": "cmnd/rfbridge/rfkey3",
-            "keyfobSOSTopic": "cmnd/rfbridge/rfkey4"
-        },
-        "keyfobMQTTCodes":{
-            "keyfobAwayArmCode": "B74C81",
-            "keyfobStayArmCode": "B74C84",
-            "keyfobDisarmCode": "B74C82",
-            "keyfobSOSCode": "B74C88"
-        },
-        "sirenEnabled": true
+        "keyfobEnabled": false,
+        "sirenEnabled": false
 }
 ```
 Add more **sensors** as required. 
 
-For a populated example see the [example-config.json](https://github.com/nzbullet/homebridge-homeqtt-alarm/blob/master/example-config.json)
+This is a basic example. For a fully populated example see the [example-config.json](https://github.com/nzbullet/homebridge-homeqtt-alarm/blob/master/example-config.json)
 
 # Planned Features
 See the [Changelog](https://github.com/nzbullet/homebridge-homeqtt-alarm/blob/master/CHANGELOG.md) for upcoming/planned features. 

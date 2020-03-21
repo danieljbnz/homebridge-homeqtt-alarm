@@ -35,7 +35,6 @@ function homeqttAlarmAccessory(log, config) {
 	this.sensors = config.sensors // All Sensors Object
 	this.targetStates = config.alarmSettings.targetStates // Target States
 	this.keyfob = config.keyfob // Keyfob
-	this.siren = config.keyfob.siren // Siren Object
 
 	// Keyfob
 	if (this.keyfob.keyfobEnabled === true) {

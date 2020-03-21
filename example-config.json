@@ -1,7 +1,9 @@
 {
     "name": "Homeqtt",
     "mqttOptions": {
-        "url": "mqtt://192.168.1.40:1883"
+        "url": "mqtt://192.168.1.40:1883",
+        "username": "USERNAME",
+        "password": "PASSWORD"
     },
     "alramTopics": {
         "sensorTopic": "tele/rfbridge/RESULT",

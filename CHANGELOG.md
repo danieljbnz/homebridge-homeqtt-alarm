@@ -6,14 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased / Planned Features
-- NFC Tag Support (arm/disarm the without using the Home app)<sup>**</sup>
-
-    <sup>**Requires iOS 13 or above and Shortcuts app is required to create this automation.</sup>
-- Sensor zones (group sensors into zones)
-- Enable / disable by zone
 - Time delay before arm
 - Time delay before disarm
+- Sensor zones (group sensors into zones)
+- Enable / disable by zone
 - Option to override topic per sensor (would default to main sensorTopic). This allows you to get sensor activity from multiple topics.
+
+## v2.0.1 - 2020-03-22
+### Fixed
+- Bug Fixes
+- Code tidy-up
+- Update Readme, Changelog and example-config.json
 
 ## v2.0.0 - 2020-03-21
 ### Added
