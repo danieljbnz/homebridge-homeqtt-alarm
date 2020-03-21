@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## v2.0.1 - 2020-03-22
 ### Fixed
-- Bug Fixes
+- Minor keyfob bug fixed where config was not applied
 - Code tidy-up
 - Update Readme, Changelog and example-config.json
 
