@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enable / disable by zone
 - Option to override topic per sensor (would default to main sensorTopic). This allows you to get sensor activity from multiple topics.
 
-## v2.0.1 - 2020-03-22
+## v2.0.2 - 2020-03-22
 ### Fixed
 - Minor keyfob bug fixed where config was not applied
 - Code tidy-up
