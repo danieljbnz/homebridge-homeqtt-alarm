@@ -95,7 +95,7 @@ Once the plugin is installed you will be presented with the settings page to pop
 | Keyfob Away Arm Topic       | keyfob/keyfobTopics/keyfobAwayArmTopic   | No       | Topic published to notify HomeKit of a keyfob Away Arm button press       | String   | cmnd/rfbridge/rfkey1     |
 | Keyfob Stay Arm Topic       | keyfob/keyfobTopics/keyfobStayArmTopic   | No       | Topic published to notify HomeKit of a keyfob Stay Arm button press       | String   | cmnd/rfbridge/rfkey2     |
 | Keyfob Disarm Topic         | keyfob/keyfobTopics/keyfobDisarmTopic    | No       | Topic published to notify HomeKit of a keyfob Disarm button press         | String   | cmnd/rfbridge/rfkey3     |
-| Keyfob SOS Topic            | kkeyfob/keyfobTopics/eyfobSOSTopic       | No       | Topic published to notify HomeKit of a keyfob SOS button press            | String   | cmnd/rfbridge/rfkey4     |
+| Keyfob SOS Topic            | keyfob/keyfobTopics/keyfobSOSTopic       | No       | Topic published to notify HomeKit of a keyfob SOS button press            | String   | cmnd/rfbridge/rfkey4     |
 | Keyfob Away Arm Code        | keyfob/keyfobMQTTCodes/keyfobAwayArmCode | No       | Enter the MQTT code received when pressing Lock button on a Keyfob        | String   | 12345L                   |
 | Keyfob Stay Arm Code        | keyfob/keyfobMQTTCodes/keyfobStayArmCode | No       | Enter the MQTT code received when pressing Stay/Home button on a Keyfob   | String   | 12345H                   |
 | Keyfob Disarm Code          | keyfob/keyfobMQTTCodes/keyfobDisarmCode  | No       | Enter the MQTT code received when pressing Unlock button on a Keyfob      | String   | 12345U                   |
