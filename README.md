@@ -90,7 +90,7 @@ Once the plugin is installed you will be presented with the settings page to pop
 | Allow Sensor for Stay Arm?  | sensorAllowStay      | No       | Usually ONLY entry-point sensors (e.g. doors and windows)                 | Boolean  | true / false             |
 | Allow Sensor for Away Arm?  | sensorAllowAway      | No       | Usually ALL sensors                                                       | Boolean  | true / false             |
 | Allow Sensor for Night Arm? | sensorAllowNight     | No       | Usually ALL entry-point sensors and SOME internal sensors                 | Boolean  | true / false             |
-| Have Keyfob?                | keyfobEnabled        | No       | Enable or Disable a Keyfob                                                | Boolean  | true / false             |
+| Have Keyfob?               | keyfobEnabled        | No       | Enable or Disable a Keyfob                                                | Boolean  | true / false             |
 | Keyfob Away Arm Topic       | keyfobAwayArmTopic   | No       | Topic published to notify HomeKit of a keyfob Away Arm button press       | String   | cmnd/rfbridge/rfkey1     |
 | Keyfob Stay Arm Topic       | keyfobStayArmTopic   | No       | Topic published to notify HomeKit of a keyfob Stay Arm button press       | String   | cmnd/rfbridge/rfkey2     |
 | Keyfob Disarm Topic         | keyfobDisarmTopic    | No       | Topic published to notify HomeKit of a keyfob Disarm button press         | String   | cmnd/rfbridge/rfkey3     |
