@@ -34,12 +34,23 @@ function homeqttAlarmAccessory(log, config) {
 	this.name = config.name // Name of sensor in Homekit (Defaults to 'Homeqtt')
 	this.sensors = config.sensors // All Sensors Object
 	this.targetStates = config.alarmSettings.targetStates // Target States
+	this.keyfob = config.keyfob // Keyfob
+	this.siren = config.keyfob.siren // Siren Object
 
+	// Keyfob
+	if (this.keyfob.keyfobEnabled === true) {
+		log("Keyfob available") 
+	} else {
+		log("No Keyfob available") 
+	};
+	// Siren
+	if (this.keyfob.sirenEnabled === true) {
+		log("Siren Enabled") 
+	} else {
+		log("Siren Disabled") 
+	};
 	// MQTT Topics
-	this.topics = config.topics // All Topics
-	this.sensorTopic = config.topics.sensorTopic // Topic used to check for sensor activity
-	this.setTargetStateTopic = config.topics.setTargetStateTopic // Topic published when the target alarm state is changed in HomeKit
-	this.getCurrentStateTopic = config.topics.getCurrentStateTopic // Topic published to notify HomeKit that an alarm state has been achieved
+	this.alarmTopics = config.alarmTopics // All Topics
 
 	// MQTT Broker connection settings
 	var mqttClientId = config.name.replace(/[^\x20-\x7F]/g, "") + '_' + Math.random().toString(16).substr(2, 8);
@@ -85,13 +96,47 @@ function homeqttAlarmAccessory(log, config) {
 	// MQTT Message Received
 	this.client.on('message', function (topic, msg) {
 		var message = msg.toString();
+		// Set Homekit Alarm based on Keyfob Button presses
+		if (that.keyfob.keyfobEnabled === true) {
+			if (topic == that.alarmTopics.sensorTopic) {
+				if (message.indexOf(that.keyfob.keyfobMQTTCodes.keyfobAwayArmCode) !== -1){
+					if (that.debug) {
+						log("Keyfob Button Pressed: Away Arm")
+					}
+					var message = that.payloadAwayArm
+					that.securityService.setCharacteristic(Characteristic.SecuritySystemTargetState, 1);
+					that.client.publish(that.alarmTopics.getCurrentStateTopic, that.payloadAwayArm);
+				}
+				if (message.indexOf(that.keyfob.keyfobMQTTCodes.keyfobStayArmCode) !== -1){
+					if (that.debug) {
+						log("Keyfob Button Pressed: Stay Arm")
+					}
+					var message = that.payloadStayArm
+					that.securityService.setCharacteristic(Characteristic.SecuritySystemTargetState, 0);
+					that.client.publish(that.alarmTopics.getCurrentStateTopic, that.payloadStayArm);
+				}
+				if (message.indexOf(that.keyfob.keyfobMQTTCodes.keyfobDisarmCode) !== -1){
+					if (that.debug) {
+						log("Keyfob Button Pressed: Disarmed")
+					}
+					var message = that.payloadDisarmed
+					that.securityService.setCharacteristic(Characteristic.SecuritySystemTargetState, 3);
+					that.client.publish(that.alarmTopics.getCurrentStateTopic, that.payloadDisarmed);
+				}
+				if (message.indexOf(that.keyfob.keyfobMQTTCodes.keyfobSOSCode) !== -1){
+					log("Keyfob SOS Triggered")
+					var message = that.payloadTriggered
+					that.securityService.setCharacteristic(Characteristic.SecuritySystemCurrentState, 4);
+					that.client.publish(that.alarmTopics.getCurrentStateTopic, that.payloadTriggered);
+				}
+			}
+		}
 		// Current state or target state topic messages (setting the state)
-		if (topic === that.getCurrentStateTopic || topic === that.setTargetStateTopic) {
+		if (topic === that.alarmTopics.getCurrentStateTopic || topic === that.alarmTopics.setTargetStateTopic) {
 			if (that.debug) {
 				log("Topic:", topic)
 				log("Message:", message)
 			}
-			// Convert message state (e.g. Away Arm) to HomekKit integer (e.g. 1)
 			switch (message) {
 				case that.payloadStayArm:
 					message = Characteristic.SecuritySystemCurrentState.STAY_ARM; // STAY_ARM = 0
@@ -105,6 +150,9 @@ function homeqttAlarmAccessory(log, config) {
 				case that.payloadDisarmed:
 					message = Characteristic.SecuritySystemCurrentState.DISARMED; // DISARMED = 3
 					break;
+				case that.payloadDisarm:
+					message = Characteristic.SecuritySystemCurrentState.DISARMED; // DISARM = 3
+					break;
 				case that.payloadTriggered:
 					message = Characteristic.SecuritySystemCurrentState.ALARM_TRIGGERED; // ALARM_TRIGGERED = 4
 					break;
@@ -116,10 +164,31 @@ function homeqttAlarmAccessory(log, config) {
 			if (message !== null) {
 				that.readstate = message;
 				that.securityService.getCharacteristic(Characteristic.SecuritySystemCurrentState, that.readstate);
+				// Set Siren State if siren enabled
+				if (that.keyfob.sirenEnabled === true) {
+					if (that.readstate === 0 || that.readstate === 1 || that.readstate === 2) {
+						that.client.publish(that.keyfob.keyfobTopics.keyfobAwayArmTopic, that.keyfob.keyfobMQTTCodes.keyfobAwayArmCode);
+						if (that.debug) {
+							log("Siren Status: Armed")
+						}
+					}
+					if (that.readstate === 3) {
+						that.client.publish(that.keyfob.keyfobTopics.keyfobDisarmTopic, that.keyfob.keyfobMQTTCodes.keyfobDisarmCode);
+						if (that.debug) {
+							log("Siren Status: Disarmed")
+						}
+					}
+					if (that.readstate === 4) {
+						that.client.publish(that.keyfob.keyfobTopics.keyfobSOSTopic, that.keyfob.keyfobMQTTCodes.keyfobSOSCode);
+						if (that.debug) {
+							log("Siren Status: Triggered")
+						}
+					}
+				}
 			};
 		}
 		// Sensor topic messages (triggered messages)
-		if (topic == that.sensorTopic) {
+		if (topic == that.alarmTopics.sensorTopic) {
 			for (let sensor in that.sensors) {
 				// Sensor is in MQTT message
 				if (message.indexOf(that.sensors[sensor].sensorMQTTCode) !== -1) {
@@ -135,27 +204,39 @@ function homeqttAlarmAccessory(log, config) {
 						if (that.sensors[sensor].sensorAllowNight === true && that.readstate === 2) {
 							triggerAlarm.call()
 						}
-						// Trigger Alarm
+						// Trigger Alarm Function
 						function triggerAlarm() {
-							if (that.debug) {
 								log('Sensor Triggered:', that.sensors[sensor].sensorLocation, '(', that.sensors[sensor].sensorMQTTCode, ')')
-							}
 							// MQTT Publish Triggered 
-							that.client.publish(that.topics.getCurrentStateTopic, that.payloadTriggered);
+							that.client.publish(that.alarmTopics.getCurrentStateTopic, that.payloadTriggered);
 							// Trigger Alarm in HomeKit
 							that.securityService.setCharacteristic(Characteristic.SecuritySystemCurrentState, 4);
+							// Trigger Siren if enabled
+							if (that.keyfob.sirenEnabled === true) {
+								that.client.publish(that.keyfob.keyfobTopics.keyfobSOSTopic, that.keyfob.keyfobMQTTCodes.keyfobSOSCode);
+								log("Siren Triggered")
+							}
 						}
 					}
 				}
 			}
 		}
 	});
+
 	// Subscribe to all topics on connect
 	this.client.on('connect', function () {
-		for (let topic in that.topics) {
-			that.client.subscribe(that.topics[topic]);
+		for (let topic in that.alarmTopics) {
+			that.client.subscribe(that.alarmTopics[topic]);
 			if (that.debug) {
-				log('Connected and subscribed to: ', that.topics[topic]);
+				log('Connected and subscribed to: ', that.alarmTopics[topic]);
+			}
+		}
+		if (that.keyfob.keyfobEnabled === true) {
+			for (let keyfobTopic in that.keyfob.keyfobTopics) {
+				that.client.subscribe(that.keyfob.keyfobTopics[keyfobTopic]);
+				if (that.debug) {
+					log('Connected and subscribed to keyfob topic: ', that.keyfob.keyfobTopics[keyfobTopic]);
+				}
 			}
 		}
 	});
@@ -174,15 +255,19 @@ homeqttAlarmAccessory.prototype = {
 			case Characteristic.SecuritySystemTargetState.NIGHT_ARM:
 				mqttstate = this.payloadNightArm;
 				break;
-			case Characteristic.SecuritySystemTargetState.DISARM:
+			case Characteristic.SecuritySystemTargetState.DISARMED:
 				mqttstate = this.payloadDisarmed;
 				break;
-		};
+			case Characteristic.SecuritySystemTargetState.DISARM:
+				mqttstate = this.payloadDisarm;
+				break;
+			};
 		// MQTT Publish State 
-		this.client.publish(this.topics.getCurrentStateTopic, mqttstate, {
+		this.client.publish(this.alarmTopics.getCurrentStateTopic, mqttstate, {
 			qos: 0,
 			retain: true
 		});
+		this.log("Setting state to:", mqttstate)
 		this.securityService.setCharacteristic(Characteristic.SecuritySystemCurrentState, state);
 		callback(null, state);
 	},

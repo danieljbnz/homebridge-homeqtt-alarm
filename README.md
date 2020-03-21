@@ -20,11 +20,26 @@ This plugin sets up an alarm in HomeKit, then allows you to connect Homebridge t
 - Give sensors a location (i.e. a nice name)
 - Globally enable/disable individual sensors
 - Set sensors for only certain states
+- Enable/Disable Siren
+- Set Away Arm, Stay Arm, Disarm, Trigger (SOS) from Keyfob
+
+# Recommended Hardware
+- [Sonoff RF Bridge](https://sonoff.tech/product/accessories/433-rf-bridge  "Sonoff RF Bridge"): Flashed with Tasmota and used to receive 433Mhz RF Messages from sensors and convert to MQTT.
+- [Indoor PIR Sensor](https://www.banggood.com/SONOFF-PIR2-Wireless-Infrared-Detector-Dual-Infrared-PIR-Motion-Sensor-Module-p-1227759.html "Sonoff Indoor PIR2 Sensor"): 433Mhz Wireless Indoor PIR - Model CT60
+- [Outdoor PIR Sensor](https://www.banggood.com/PIR-Outdoor-Wireless-433-Waterproof-Infrared-Detector-Dual-Infrared-Motion-Sensor-For-Smart-Home-Security-Alarm-System-Work-With-SONOFF-RF-Bridge-433-p-1534707.html "Sonoff Outdoor PIR Sensor"): 433Mhz Wireless **Waterproof** Outdoor PIR - Model CT70
+- [Digoo Door and Window Sensor](https://www.banggood.com/DIGOO-433MHz-New-Door-Window-Alarm-Sensor-for-HOSA-HAMA-Smart-Home-Security-System-Suit-Kit-p-1388985.html "Digoo Door and Window Sensor"): DIGOO 433MHz Door & Window Alarm Sensor
+- [Digoo Siren](https://www.banggood.com/Digoo-DG-ROSA-433MHz-Wireless-Standalone-Alarm-Siren-Multi-function-Security-Systems-Host-p-1169577.html "DIGOO Siren"): DIGOO DG-ROSA 433MHz Wireless DIY Standalone Alarm Siren
+- [Digoo Keyfob](https://www.banggood.com/DIGOO-DG-HOSA-Wireless-Remote-Controller-for-Smart-Home-Security-Alarm-System-Kits-p-1163122.html "DIGOO Keyfob"): DIGOO DG-HOSA Wireless Remote Controller (Black or White)
+
+You need to link your Keyfob to both your Sonoff RF Bridge and the Siren. 
+- Once linked to the RF Bridge you will be able to receive MQTT codes on the same topic [as other sensors] when you press a button, allowing you to arm and disarm from the keyfob.
+    - To program link the remote to the RF Bridge publish the value `2` to `cmnd/rfbridge/rfkeyX` (replace X with a value from 1-4) then press the button on the remote you wish to link (e.g. Away Arm or SOS etc). 
+- Once linked to the siren you will also be able to set and unset the siren from either the keyfob or Homekit. 
 
 # Prerequisites 
 1. You have [Homebridge](https://github.com/nfarina/homebridge  "Homebridge") Installed
 2. You have an MQTT Server Running
-3. Your MQTT server receives codes when sensors are triggered (e.g 433Mhz contact sensor to [Sonoff RF Bridge](https://sonoff.tech/product/accessories/433-rf-bridge  "Sonoff RF Bridge"))
+3. Your MQTT server receives codes when sensors are triggered (e.g 433Mhz contact sensor to Sonoff RF Bridge) - See [Recommended Hardware](#recommended-hardware) above)
 4. You have made a coffee
 
 # Installation
@@ -71,6 +86,16 @@ Once the plugin is installed you will be presented with the settings page to pop
 | Allow Sensor for Stay Arm?  | sensorAllowStay      | No       | Usually ONLY entry-point sensors (e.g. doors and windows)                 | Boolean  | true / false             |
 | Allow Sensor for Away Arm?  | sensorAllowAway      | No       | Usually ALL sensors                                                       | Boolean  | true / false             |
 | Allow Sensor for Night Arm? | sensorAllowNight     | No       | Usually ALL entry-point sensors and SOME internal sensors                 | Boolean  | true / false             |
+| Have Keyfob?                | keyfobEnabled        | No       | Enable or Disable a Keyfob                                                | Boolean  | true / false             |
+| Keyfob Away Arm Topic       | keyfobAwayArmTopic   | No       | Topic published to notify HomeKit of a keyfob Away Arm button press       | String   | cmnd/rfbridge/rfkey1     |
+| Keyfob Stay Arm Topic       | keyfobStayArmTopic   | No       | Topic published to notify HomeKit of a keyfob Stay Arm button press       | String   | cmnd/rfbridge/rfkey2     |
+| Keyfob Disarm Topic         | keyfobDisarmTopic    | No       | Topic published to notify HomeKit of a keyfob Disarm button press         | String   | cmnd/rfbridge/rfkey3     |
+| Keyfob SOS Topic            | keyfobSOSTopic       | No       | Topic published to notify HomeKit of a keyfob SOS button press            | String   | cmnd/rfbridge/rfkey4     |
+| Keyfob Away Arm Code        | keyfobAwayArmCode    | No       | Enter the MQTT code received when pressing Lock button on a Keyfob        | String   | 12345L                   |
+| Keyfob Stay Arm Code        | keyfobStayArmCode    | No       | Enter the MQTT code received when pressing Stay/Home button on a Keyfob   | String   | 12345H                   |
+| Keyfob Disarm Code          | keyfobDisarmCode     | No       | Enter the MQTT code received when pressing Unlock button on a Keyfob      | String   | 12345U                   |
+| Keyfob SOS Code             | keyfobSOSCode        | No       | Enter the MQTT code received when pressing SOS button on a Keyfob         | String   | 12345S                   |
+| Enable Siren?               | sirenEnabled         | No       | Enable or Disable a Siren                                                 | Boolean  | true / false             |
 | Additional Logging?         | debug                | No       | Ahow additional logging in Homebridge logs                                | Boolean  | true / false             |
 | N/A (auto set by settings)  | accessory            | Yes      | Homebridge plugin accessory identifier                                    | String   | homebridge-homeqtt-alarm |
 
@@ -86,7 +111,7 @@ If you are configuring the system manually you need to add an accessory block to
     "mqttOptions": {
         "url": "mqtt://xxx.xxx.xxx.xxx:xxxx"
     },
-    "topics": {
+    "alarmTopics": {
         "sensorTopic": "",
         "setTargetStateTopic": "",
         "getCurrentStateTopic": ""
@@ -117,7 +142,22 @@ If you are configuring the system manually you need to add an accessory block to
             "sensorAllowAway": true,
             "sensorAllowNight": true
         }
-    ]
+    ],
+    "keyfob": {
+        "keyfobEnabled": true,
+        "keyfobTopics":{
+            "keyfobAwayArmTopic": "cmnd/rfbridge/rfkey1",
+            "keyfobStayArmTopic": "cmnd/rfbridge/rfkey2",
+            "keyfobDisarmTopic": "cmnd/rfbridge/rfkey3",
+            "keyfobSOSTopic": "cmnd/rfbridge/rfkey4"
+        },
+        "keyfobMQTTCodes":{
+            "keyfobAwayArmCode": "B74C81",
+            "keyfobStayArmCode": "B74C84",
+            "keyfobDisarmCode": "B74C82",
+            "keyfobSOSCode": "B74C88"
+        },
+        "sirenEnabled": true
 }
 ```
 Add more **sensors** as required. 

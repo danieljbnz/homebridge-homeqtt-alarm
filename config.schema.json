@@ -33,8 +33,8 @@
 				}
 			}
 		},
-		"topics": {
-			"title": "MQTT Topics",
+		"alarmTopics": {
+			"title": "MQTT Alarm Topics",
 			"type": "object",
 			"properties": {
 				"sensorTopic": {
@@ -152,6 +152,80 @@
 				}
 			}
 		},
+		"keyfob": {
+			"title": "Keyfob and Siren Config",
+			"type": "object",
+			"properties": {
+				"keyfobEnabled": {
+					"title": "Have Keyfob?",
+					"type": "boolean",
+					"default": false,
+					"description": "Only enable this if you have a keyfob"
+				},
+				"keyfobTopics": {
+					"title": "Keyfob Topics",
+					"type": "object",
+					"properties": {
+						"keyfobAwayArmTopic": {
+							"title": "Keyfob Away Arm Topic",
+							"type": "string",
+							"default": "",
+							"description": "Topic published to notify HomeKit of a keyfob 'Away Arm' button press.",
+							"required": false
+						},
+						"keyfobStayArmTopic": {
+							"title": "Keyfob Stay Arm Topic",
+							"type": "string",
+							"default": "",
+							"description": "Topic published to notify HomeKit of a keyfob 'Stay Arm' button press.",
+							"required": false
+						},
+						"keyfobDisarmTopic": {
+							"title": "Keyfob Disarm Topic",
+							"type": "string",
+							"default": "",
+							"description": "Topic published to notify HomeKit of a keyfob 'Disarm' button press.",
+							"required": false
+						},
+						"keyfobSOSTopic": {
+							"title": "Keyfob SOS Topic",
+							"type": "string",
+							"default": "",
+							"description": "Topic published to notify HomeKit of a keyfob 'SOS' button press.",
+							"required": false
+						}
+					}
+				},
+				"keyfobMQTTCodes": {
+					"title": "Keyfob MQTT Codes",
+					"type": "object",
+						"properties": {
+							"keyfobAwayArmCode": {
+								"title": "Keyfob Away Arm Code",
+								"type": "string"
+							},
+							"keyfobStayArmCode": {
+								"title": "Keyfob Stay Arm Code",
+								"type": "string"
+							},
+							"keyfobDisarmCode": {
+								"title": "Keyfob Disarm Code",
+								"type": "string"
+							},
+							"keyfobSOSCode": {
+								"title": "Keyfob SOS Code",
+								"type": "string"
+							}
+						}
+				},
+				"sirenEnabled": {
+					"title": "Enable Siren?",
+					"type": "boolean",
+					"default": false,
+					"description": "Enable or disable the siren (must have keyfob setup)"
+				}
+			}
+		},
 		"debug": {
 			"title": "Additional Logging?",
 			"type": "boolean",
@@ -208,11 +282,11 @@
 		{
 			"type": "fieldset",
 			"expandable": true,
-			"title": "MQTT Topics",
+			"title": "MQTT Alarm Topics",
 			"items": [
-				"topics.sensorTopic",
-				"topics.setTargetStateTopic",
-				"topics.getCurrentStateTopic"
+				"alarmTopics.sensorTopic",
+				"alarmTopics.setTargetStateTopic",
+				"alarmTopics.getCurrentStateTopic"
 			]
 		},
 		{
@@ -254,6 +328,39 @@
 						}
 					]
 				}
+			]
+		},
+		{
+			"type": "fieldset",
+			"expandable": true,
+			"title": "Keyfob Config",
+			"items": [
+				"keyfob.keyfobEnabled",
+				{
+					"type": "fieldset",
+					"expandable": true,
+					"expanded": true,
+					"title": "Keyfob Topics",
+					"items": [
+						"keyfob.keyfobTopics.keyfobAwayArmTopic",
+						"keyfob.keyfobTopics.keyfobStayArmTopic",
+						"keyfob.keyfobTopics.keyfobDisarmTopic",
+						"keyfob.keyfobTopics.keyfobSOSTopic"
+					]
+				},
+				{
+					"type": "fieldset",
+					"expandable": true,
+					"expanded": true,
+					"title": "Keyfob MQTT Codes",
+					"items": [
+						"keyfob.keyfobMQTTCodes.keyfobAwayArmCode",
+						"keyfob.keyfobMQTTCodes.keyfobStayArmCode",
+						"keyfob.keyfobMQTTCodes.keyfobDisarmCode",
+						"keyfob.keyfobMQTTCodes.keyfobSOSCode"
+					]
+				},
+				"keyfob.sirenEnabled"
 			]
 		},
 		{
