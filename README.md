@@ -90,7 +90,7 @@ Once the plugin is installed you will be presented with the settings page to pop
 | Enable Sensor               | ssensors/ensorEnabled                    | No       | Globally enable/disable this sensor                                       | Boolean  | true / false             |
 | Allow Sensor for Stay Arm?  | ssensors/ensorAllowStay                  | No       | Usually ONLY entry-point sensors (e.g. doors and windows)                 | Boolean  | true / false             |
 | Allow Sensor for Away Arm?  | sensors/sensorAllowAway                  | No       | Usually ALL sensors                                                       | Boolean  | true / false             |
-| Allow Sensor for Night Arm? | ssensors/ensorAllowNight                 | No       | Usually ALL entry-point sensors and SOME internal sensors                 | Boolean  | true / false             |
+| Allow Sensor for Night Arm? | sensors/sensorAllowNight                 | No       | Usually ALL entry-point sensors and SOME internal sensors                 | Boolean  | true / false             |
 | Have Keyfob?                | keyfob/keyfobEnabled                     | No       | Enable or Disable a Keyfob                                                | Boolean  | true / false             |
 | Keyfob Away Arm Topic       | keyfob/keyfobTopics/keyfobAwayArmTopic   | No       | Topic published to notify HomeKit of a keyfob Away Arm button press       | String   | cmnd/rfbridge/rfkey1     |
 | Keyfob Stay Arm Topic       | keyfob/keyfobTopics/keyfobStayArmTopic   | No       | Topic published to notify HomeKit of a keyfob Stay Arm button press       | String   | cmnd/rfbridge/rfkey2     |
