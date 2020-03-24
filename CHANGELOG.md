@@ -12,9 +12,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enable / disable by zone
 - Option to override topic per sensor (would default to main sensorTopic). This allows you to get sensor activity from multiple topics.
 
+## v3.0.0 - 2020-03-24
+### Added
+#### Keyfobs
+- Enable/Disable keyfob (without removing config)
+- Name Keyfob
+- Add multiple Keyfobs (Max 4)
+- Remove Keyfobs
+
+#### Keyfob Buttons
+- Add keyfob buttons (Max 4)
+- Remove keyfob buttons
+- Enable/Disable keyfob button (without removing config)
+- Choose which alarm state the button activates (Stay Arm (Home), Away Arm, Night Arm, Disarm, SOS/Triggered)
+- Set Button MQTT Code
+- Button RF Key Topic (for use with siren)
+
+### Changed
+- Major re-write of code
+- Updated variable names
+- Siren option only shows if at least one keyfob is configured. 
+- Update Homebridge Config UI X Settings Panel
+- Update Readme, Changelog and example-config.json
+
 ## v2.0.2 - 2020-03-22
 ### Fixed
 - Minor keyfob bug fixed where config was not applied
+
+## Changed
 - Code tidy-up
 - Update Readme, Changelog and example-config.json
 

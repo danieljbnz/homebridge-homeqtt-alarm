@@ -11,25 +11,37 @@
 			"default": "Homeqtt",
 			"required": true
 		},
-		"mqttOptions": {
-			"title": "MQTT Options",
+		"accessory": {
+			"title": "Accessory",
+			"type": "string",
+			"default": "homebridge-homeqtt-alarm",
+			"required": true
+		},
+		"debug": {
+			"title": "Additional Logging?",
+			"type": "boolean",
+			"default": true,
+			"description": "Additional logging (seriously... all of the logging)"
+		},
+		"mqttConfig": {
+			"title": "MQTT Config",
 			"type": "object",
 			"properties": {
 				"url": {
 					"title": "MQTT Broker URL:Port",
 					"type": "string",
-					"description": "e.g. mqtt://192.168.1.xxx:1883",
+					"placeholder": "e.g. mqtt://192.168.1.xxx:1883",
 					"required": true
 				},
 				"username": {
 					"title": "MQTT Username",
 					"type": "string",
-					"description": "Your MQTT Broker username (optional)"
+					"placeholder": "Your MQTT Broker username (optional)"
 				},
 				"password": {
 					"title": "MQTT Password",
 					"type": "string",
-					"description": "Your MQTT Broker password (optional)"
+					"placeholder": "Your MQTT Broker password (optional)"
 				}
 			}
 		},
@@ -37,31 +49,31 @@
 			"title": "MQTT Alarm Topics",
 			"type": "object",
 			"properties": {
-				"sensorTopic": {
-					"title": "MQTT Sensor Topic",
+				"messageTopic": {
+					"title": "MQTT Message Topic",
 					"type": "string",
-					"default": "tele/rfbridge/RESULT",
-					"description": "Topic used to check for sensor activity.",
-					"required": true
+					"description": "Topic used to check for message activity (i.e. sensors and keyfob button presses)",
+					"required": true,
+					"placeholder": "e.g. tele/rfbridge/RESULT"
 				},
 				"setTargetStateTopic": {
 					"title": "Set Target State Topic",
 					"type": "string",
-					"default": "alarm/target",
 					"description": "Topic published when the target alarm state is changed in HomeKit.",
-					"required": true
+					"required": true,
+					"placeholder": "e.g. alarm/target"
 				},
 				"getCurrentStateTopic": {
 					"title": "Get Current State Topic",
 					"type": "string",
-					"default": "alarm/current",
 					"description": "Topic published to notify HomeKit of the current or triggered alarm state.",
-					"required": true
+					"required": true,
+					"placeholder": "e.g. alarm/current"
 				}
 			}
 		},
 		"alarmSettings": {
-			"title": "Alarm Settings",
+			"title": "Enabled Alarm States in Home",
 			"type": "object",
 			"properties": {
 				"targetStates": {
@@ -69,7 +81,7 @@
 					"type": "object",
 					"properties": {
 						"stayArm": {
-							"title": "Stay Arm",
+							"title": "Stay Arm (Home)",
 							"type": "boolean",
 							"default": true,
 							"description": "Used when the home is occupied and residents are active."
@@ -90,7 +102,7 @@
 				}
 			}
 		},
-		"sensors": {
+		"sensor": {
 			"type": "array",
 			"items": {
 				"title": "Sensor Config",
@@ -100,50 +112,42 @@
 						"title": "Sensor Type",
 						"type": "string",
 						"oneOf": [
-							{
-								"title": "Contact Sensor",
-								"enum": [
-									"contactSensor"
-								]
-							},
-							{
-								"title": "PIR",
-								"enum": [
-									"pirSensor"
-								]
-							}
+							{ "title": "Contact Sensor", "enum": [ "contactSensor" ] },
+							{ "title": "PIR", "enum": [ "pirSensor" ] }
 						],
 						"required": true
 					},
-					"sensorLocation": {
+					"location": {
 						"title": "Sensor Location",
 						"type": "string",
-						"required": true
+						"required": true,
+						"placeholder": "e.g. Front Door"
 					},
-					"sensorMQTTCode": {
+					"MQTTCode": {
 						"title": "Sensor MQTT Code",
 						"type": "string",
-						"required": true
+						"required": true,
+						"placeholder": "e.g. 12345C"
 					},
-					"sensorEnabled": {
+					"enabled": {
 						"title": "Enable Sensor",
 						"type": "boolean",
 						"default": true,
 						"description": "Globally enable/disable this sensor"
 					},
-					"sensorAllowStay": {
-						"title": "Allow Sensor for Stay Arm?",
+					"allowStay": {
+						"title": "Allow Sensor for Stay Arm (Home)?",
 						"type": "boolean",
 						"default": true,
 						"description": "Usually ONLY entry-point sensors (e.g. doors and windows)"
 					},
-					"sensorAllowAway": {
+					"allowAway": {
 						"title": "Allow Sensor for Away Arm?",
 						"type": "boolean",
 						"default": true,
 						"description": "Usually ALL sensors"
 					},
-					"sensorAllowNight": {
+					"allowNight": {
 						"title": "Allow Sensor for Night Arm?",
 						"type": "boolean",
 						"default": true,
@@ -153,84 +157,82 @@
 			}
 		},
 		"keyfob": {
-			"title": "Keyfob and Siren Config",
-			"type": "object",
-			"properties": {
-				"keyfobEnabled": {
-					"title": "Have Keyfob?",
-					"type": "boolean",
-					"default": false,
-					"description": "Only enable this if you have a keyfob"
-				},
-				"keyfobTopics": {
-					"title": "Keyfob Topics",
-					"type": "object",
-					"properties": {
-						"keyfobAwayArmTopic": {
-							"title": "Keyfob Away Arm Topic",
-							"type": "string",
-							"default": "",
-							"description": "Topic published to notify HomeKit of a keyfob 'Away Arm' button press.",
-							"required": false
-						},
-						"keyfobStayArmTopic": {
-							"title": "Keyfob Stay Arm Topic",
-							"type": "string",
-							"default": "",
-							"description": "Topic published to notify HomeKit of a keyfob 'Stay Arm' button press.",
-							"required": false
-						},
-						"keyfobDisarmTopic": {
-							"title": "Keyfob Disarm Topic",
-							"type": "string",
-							"default": "",
-							"description": "Topic published to notify HomeKit of a keyfob 'Disarm' button press.",
-							"required": false
-						},
-						"keyfobSOSTopic": {
-							"title": "Keyfob SOS Topic",
-							"type": "string",
-							"default": "",
-							"description": "Topic published to notify HomeKit of a keyfob 'SOS' button press.",
-							"required": false
-						}
-					}
-				},
-				"keyfobMQTTCodes": {
-					"title": "Keyfob MQTT Codes",
-					"type": "object",
-						"properties": {
-							"keyfobAwayArmCode": {
-								"title": "Keyfob Away Arm Code",
-								"type": "string"
-							},
-							"keyfobStayArmCode": {
-								"title": "Keyfob Stay Arm Code",
-								"type": "string"
-							},
-							"keyfobDisarmCode": {
-								"title": "Keyfob Disarm Code",
-								"type": "string"
-							},
-							"keyfobSOSCode": {
-								"title": "Keyfob SOS Code",
-								"type": "string"
+			"title": "Do you have a Keyfob?",
+			"type": "boolean",
+			"default": false
+		},
+		"keyfobs": {
+			"type": "array",
+			"items": {
+				"title": "Keyfob Config",
+				"type": "object",
+				"properties": {
+				    "enabled": {
+						"title": "Enable Keyfob?",
+						"type": "boolean",
+						"default": false,
+						"description": "Enable or disable this keyfob"
+					},
+					"name": {
+						"title": "Keyfob Name",
+						"type": "string",
+						"required": false,
+						"description": "Friendly name of your keyfob",
+						"placeholder": "e.g. Dad Keyfob"
+					},
+					"buttons": {
+						"type": "array",
+						"items": {
+							"title": "Button",
+							"type": "object",
+							"properties": {
+							    "enabled": {
+                                    "title": "Enable Button?",
+    							    "type": "boolean",
+    							    "default": false,
+    							    "description": "Enable or disable this button"
+                                },
+							    "alarmState": {
+									"title": "Button Alarm State",
+									"type": "integer",
+									"oneOf": [
+										{ "title": "Stay Arm (Home)", "enum": [ 0 ] },
+										{ "title": "Away Arm", "enum": [ 1 ] },
+										{ "title": "Night Arm", "enum": [ 2 ] },
+										{ "title": "Disarm", "enum": [ 3 ] },
+										{ "title": "SOS / Triggered", "enum": [ 4 ] }
+									],
+									"description": "Alarm state sent when button pressed (ensure state is enabled)"
+							    },
+								"MQTTCode": {
+									"title": "Button MQTT Code",
+									"type": "string",
+									"placeholder": "e.g. 98765A"
+								},
+								"rfkeyTopic": {
+									"title": "RFKey Topic",
+									"type": "string",
+									"description": "RFKey topic published to notify siren of a state change (required to set/trigger siren from Homekit)",
+									"required": false,
+									"placeholder": "e.g. cmnd/rfbridge/rfkey1"
+								}
 							}
 						}
-				},
-				"sirenEnabled": {
-					"title": "Enable Siren?",
-					"type": "boolean",
-					"default": false,
-					"description": "Enable or disable the siren (must have keyfob setup)"
+					}
 				}
 			}
 		},
-		"debug": {
-			"title": "Additional Logging?",
-			"type": "boolean",
-			"default": true,
-			"description": "Additional logging (seriously... all of the logging)"
+		"siren": {
+			"title": "Siren Settings",
+			"type": "object",
+			"properties": {
+				"enabled": {
+					"title": "Enable Siren?",
+					"type": "boolean",
+					"default": false,
+					"description": "Enable or disable the siren (must have a keyfob setup)"
+				}
+			}
 		}
 	},
 	"layout": [
@@ -243,7 +245,7 @@
 		{
 			"type": "fieldset",
 			"expandable": true,
-			"title": "MQTT Options",
+			"title": "MQTT Config",
 			"items": [
 				{
 					"type": "flex",
@@ -252,7 +254,7 @@
 						{
 							"type": "flex",
 							"items": [
-								"mqttOptions.url"
+								"mqttConfig.url"
 							]
 						}
 					]
@@ -265,14 +267,14 @@
 							"type": "flex",
 							"flex-flow": "column",
 							"items": [
-								"mqttOptions.username"
+								"mqttConfig.username"
 							]
 						},
 						{
 							"type": "flex",
 							"flex-flow": "column",
 							"items": [
-								"mqttOptions.password"
+								"mqttConfig.password"
 							]
 						}
 					]
@@ -284,7 +286,7 @@
 			"expandable": true,
 			"title": "MQTT Alarm Topics",
 			"items": [
-				"alarmTopics.sensorTopic",
+				"alarmTopics.messageTopic",
 				"alarmTopics.setTargetStateTopic",
 				"alarmTopics.getCurrentStateTopic"
 			]
@@ -292,7 +294,7 @@
 		{
 			"type": "fieldset",
 			"expandable": true,
-			"title": "Alarm Settings",
+			"title": "Enabled Alarm States in Home",
 			"items": [
 				"alarmSettings.targetStates",
 				"alarmSettings.targetStates.stayArm",
@@ -307,23 +309,23 @@
 			"items": [
 				{
 					"type": "array",
-					"key": "sensors",
+					"key": "sensor",
 					"nodescription": true,
 					"notitle": true,
 					"items": [
 						{
 							"type": "fieldset",
 							"expandable": true,
-							"expanded": true,
+							"expanded": false,
 							"title": "Sensor",
 							"items": [
-								"sensors[].sensorType",
-								"sensors[].sensorLocation",
-								"sensors[].sensorMQTTCode",
-								"sensors[].sensorEnabled",
-								"sensors[].sensorAllowStay",
-								"sensors[].sensorAllowAway",
-								"sensors[].sensorAllowNight"
+								"sensor[].sensorType",
+								"sensor[].location",
+								"sensor[].MQTTCode",
+								"sensor[].enabled",
+								"sensor[].allowStay",
+								"sensor[].allowAway",
+								"sensor[].allowNight"
 							]
 						}
 					]
@@ -332,35 +334,85 @@
 		},
 		{
 			"type": "fieldset",
-			"expandable": true,
-			"title": "Keyfob Config",
 			"items": [
-				"keyfob.keyfobEnabled",
+				"keyfob"
+			]
+		},
+		{
+			"type": "conditional",
+			"condition": "model.keyfob",
+			"notitle": true,
+			"startEmpty": true,
+			"items": [
+			    {
+        			"type": "fieldset",
+        			"expandable": true,
+        			"title": "Keyfob Config",
+        			"items": [
+        				{
+        					"type": "array",
+        					"nodescription": true,
+        					"expandable": true,
+        					"expanded": true,
+        					"notitle": true,
+        					"title": "Keyfob",
+                            "maxItems": 4,
+        					"items": [
+        					    {
+        					        "type": "fieldset",
+        					        "nodescription": true,
+        					        "expandable": true,
+        					        "expanded": false,
+        					        "title": "Keyfob",
+        					        "items": [
+        					            "keyfobs[].enabled",
+                						"keyfobs[].name",
+                        			    {
+                							"type": "array",
+                							"expandable": true,
+                							"expanded": true,
+                							"nodescription": true,
+                							"notitle": true,
+                							"title": "Button",
+                							"minItems": 1,
+                							"maxItems": 4,
+                							"items": [
+                        						{
+                        							"type": "fieldset",
+                        							"expandable": true,
+                							        "expanded": false,
+                        							"nodescription": true,
+                        							"title": "Button",
+                        							"items": [
+                        							    "keyfobs[].buttons[].enabled",
+                        							    "keyfobs[].buttons[].alarmState",
+                                                        "keyfobs[].buttons[].MQTTCode",
+                                                        "keyfobs[].buttons[].rfkeyTopic"
+                        							]
+                        						}
+                							]
+                						}
+        					       ]
+        					    }
+        					]
+        				}
+        			]
+        		}
+			    ]
+		},
+		{
+			"condition": "model.keyfob",
+			"type": "conditional",
+			"notitle": true,
+			"items": [
 				{
-					"type": "fieldset",
-					"expandable": true,
-					"expanded": true,
-					"title": "Keyfob Topics",
-					"items": [
-						"keyfob.keyfobTopics.keyfobAwayArmTopic",
-						"keyfob.keyfobTopics.keyfobStayArmTopic",
-						"keyfob.keyfobTopics.keyfobDisarmTopic",
-						"keyfob.keyfobTopics.keyfobSOSTopic"
-					]
-				},
-				{
-					"type": "fieldset",
-					"expandable": true,
-					"expanded": true,
-					"title": "Keyfob MQTT Codes",
-					"items": [
-						"keyfob.keyfobMQTTCodes.keyfobAwayArmCode",
-						"keyfob.keyfobMQTTCodes.keyfobStayArmCode",
-						"keyfob.keyfobMQTTCodes.keyfobDisarmCode",
-						"keyfob.keyfobMQTTCodes.keyfobSOSCode"
-					]
-				},
-				"keyfob.sirenEnabled"
+        			"type": "fieldset",
+        			"expandable": true,
+        			"title": "Siren",
+        			"items": [
+        				"siren.enabled"
+        			]
+        		}
 			]
 		},
 		{
