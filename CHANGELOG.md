@@ -17,7 +17,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Keyfobs
 - Keyfobs config not required if no keyfobs
 - Siren config not required if no siren
-- Settings panel no longer adds Keyfobs and Siren settings if not required
 
 ## v3.0.0 - 2020-03-24
 ### Added
