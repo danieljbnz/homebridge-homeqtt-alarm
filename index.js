@@ -41,9 +41,11 @@ function homeqttAlarmAccessory(log, config) {
 	this.sensor = config.sensor // All Sensors Object
 	this.targetStates = config.alarmSettings.targetStates // Target States
 	this.keyfob = config.keyfob // Keyfob Enabled / Disabled
-	this.keyfobs = config.keyfobs // Keyfob object
-	this.buttons = config.keyfobs.buttons // Button object
-	this.siren = config.siren // Siren object
+	if (this.keyfob){
+		this.keyfobs = config.keyfobs // Keyfob object
+		this.buttons = config.keyfobs.buttons // Button object
+		this.siren = config.siren // Siren object
+	}
 
 	// Keyfob
 	if (this.keyfob === true) {
@@ -235,7 +237,7 @@ function homeqttAlarmAccessory(log, config) {
 							// Trigger Alarm in HomeKit
 							that.securityService.setCharacteristic(Characteristic.SecuritySystemCurrentState, that.commandTriggered);
 							// Trigger Siren if enabled
-							if (that.siren.enabled === true) {
+							if (that.keyfob === true && that.siren.enabled === true) {
 								for (let keyfob in that.keyfobs) {
 									if (that.keyfobs[keyfob].enabled === true) {
 										for (let button in that.keyfobs[keyfob].buttons) {

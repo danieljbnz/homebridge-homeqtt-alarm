@@ -139,15 +139,6 @@ If you are configuring the system manually you need to add an accessory block to
             "allowStay": true,
             "allowAway": true,
             "allowNight": true
-        },
-        {
-            "sensorType": "",
-            "location": "",
-            "MQTTCode": "",
-            "enabled": true,
-            "allowStay": true,
-            "allowAway": true,
-            "allowNight": true
         }
     ],
     "keyfob": false,
@@ -156,30 +147,6 @@ If you are configuring the system manually you need to add an accessory block to
             "enabled": false,
             "name": "",
             "buttons": [
-                {
-                    "enabled": false,
-                    "alarmState": integer,
-                    "MQTTCode": "",
-                    "rfkeyTopic": ""
-                },
-                {
-                    "enabled": false,
-                    "alarmState": integer,
-                    "MQTTCode": "",
-                    "rfkeyTopic": ""
-                }
-            ]
-        },
-        {
-            "enabled": false,
-            "name": "",
-            "buttons": [
-                {
-                    "enabled": false,
-                    "alarmState": integer,
-                    "MQTTCode": "",
-                    "rfkeyTopic": ""
-                },
                 {
                     "enabled": false,
                     "alarmState": integer,
