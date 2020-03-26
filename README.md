@@ -5,13 +5,14 @@
 [![License](https://img.shields.io/npm/l/homebridge-homeqtt-alarm?color=blue&label=License)](https://github.com/nzbullet/homebridge-homeqtt-alarm/blob/master/LICENSE)
 [![Donate](https://img.shields.io/badge/Paypal-Donate-blue)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=QEFE9CFBZFVS4&currency_code=NZD&source=url)
 [![Homebridge](https://img.shields.io/badge/Platform-Homebridge-blueviolet)](https://homebridge.io/)
+<!-- [![verified-by-homebridge](https://badgen.net/badge/homebridge/verified/purple)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins) -->
 [![MQTT](https://img.shields.io/badge/Platform-MQTT-blueviolet)](http://mqtt.org/)
 
 ![Homeqtt_Alarm](../media/homeqtt_logo_300.png?raw=true)
 
 Homebridge MQTT Security Alarm Plugin for HomeKit.
 
-This plugin sets up an alarm in HomeKit, then allows you to connect Homebridge to an MQTT server and with the recieved messages trigger the alarm in HomeKit (if it is armed).
+This plugin sets up an alarm in HomeKit, then allows you to connect Homebridge to an MQTT server and with the received messages trigger the alarm in HomeKit (if it is armed).
 
 # Features:
 - Connect Homebridge to MQTT to receive messages to trigger alarm
@@ -32,9 +33,9 @@ Note: NFC Tag Support (arm/disarm the without using the Home app) is not a featu
 - [Sonoff RF Bridge](https://sonoff.tech/product/accessories/433-rf-bridge  "Sonoff RF Bridge"): Flashed with Tasmota. Receives 433Mhz RF Messages from sensors and sends to MQTT.
 - [Indoor PIR Sensor](https://www.banggood.com/SONOFF-PIR2-Wireless-Infrared-Detector-Dual-Infrared-PIR-Motion-Sensor-Module-p-1227759.html "Sonoff Indoor PIR2 Sensor"): 433Mhz Wireless Indoor PIR - Model CT60
 - [Outdoor PIR Sensor](https://www.banggood.com/PIR-Outdoor-Wireless-433-Waterproof-Infrared-Detector-Dual-Infrared-Motion-Sensor-For-Smart-Home-Security-Alarm-System-Work-With-SONOFF-RF-Bridge-433-p-1534707.html "Sonoff Outdoor PIR Sensor"): 433Mhz Wireless **Waterproof** Outdoor PIR - Model CT70
-- [Digoo Door and Window Sensor](https://www.banggood.com/DIGOO-433MHz-New-Door-Window-Alarm-Sensor-for-HOSA-HAMA-Smart-Home-Security-System-Suit-Kit-p-1388985.html "Digoo Door and Window Sensor"): DIGOO 433MHz Door & Window Alarm Sensor
-- [Digoo Siren](https://www.banggood.com/Digoo-DG-ROSA-433MHz-Wireless-Standalone-Alarm-Siren-Multi-function-Security-Systems-Host-p-1169577.html "DIGOO Siren"): DIGOO DG-ROSA 433MHz Wireless DIY Standalone Alarm Siren
-- [Digoo Keyfob](https://www.banggood.com/DIGOO-DG-HOSA-Wireless-Remote-Controller-for-Smart-Home-Security-Alarm-System-Kits-p-1163122.html "DIGOO Keyfob"): DIGOO DG-HOSA Wireless Remote Controller (Black or White)
+- [Digoo Door and Window Sensor](https://www.banggood.com/DIGOO-433MHz-New-Door-Window-Alarm-Sensor-for-HOSA-HAMA-Smart-Home-Security-System-Suit-Kit-p-1388985.html "Digoo Door and Window Sensor"): Digoo 433MHz Door & Window Alarm Sensor
+- [Digoo Siren](https://www.banggood.com/Digoo-DG-ROSA-433MHz-Wireless-Standalone-Alarm-Siren-Multi-function-Security-Systems-Host-p-1169577.html "Digoo Siren"): Digoo DG-ROSA 433MHz Wireless DIY Standalone Alarm Siren
+- [Digoo Keyfob](https://www.banggood.com/DIGOO-DG-HOSA-Wireless-Remote-Controller-for-Smart-Home-Security-Alarm-System-Kits-p-1163122.html "Digoo Keyfob"): Digoo DG-HOSA Wireless Remote Controller (Black or White)
 
 ## Keyfob and Siren:
 - Maximum of 4 Keyfobs can be linked to the RF Bridge
@@ -102,9 +103,9 @@ Once the plugin is installed you will be presented with the settings page to pop
 | Enable Button?              | keyfobs/buttons/enabled          | No       | Enable or disable button                                                  | Boolean  | true / false             |
 | Button Alarm State          | keyfobs/buttons/alarmState       | No       | Alarm state sent when button pressed (state must be enabled in Alarm Settings) | Integer | 0, 1, 2, 3, 4   |
 | Button MQTT Code            | keyfobs/buttons/MQTTCode         | No       | Enter the MQTT code received when pressing button on keyfob               | String   | 12345L                   |
-| RFKey Topic                 | keyfobs/buttons/rfkeyTopic       | No       | RFKey topic published to notify siren of a state change (required to set/trigger siren from Homekit) | String   | cmnd/rfbridge/rfkey1 |
+| RFKey Topic                 | keyfobs/buttons/rfkeyTopic       | No       | RFKey topic published to notify siren of a state change (required to set/trigger siren from HomeKit) | String   | cmnd/rfbridge/rfkey1 |
 | Enable Siren?               | siren/enabled                    | No       | Enable or disable a siren (only available if keyfob enabled)              | Boolean  | true / false             |
-| Additional Logging?         | debug                            | No       | Ahow additional logging in Homebridge logs                                | Boolean  | true / false             |
+| Additional Logging?         | debug                            | No       | Show additional logging in Homebridge logs                                | Boolean  | true / false             |
 
 ## Manual Configuration
 If you are configuring the system manually you need to add an accessory block to your config.json:

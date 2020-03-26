@@ -12,6 +12,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enable / disable by zone
 - Option to override topic per sensor (would default to main sensorTopic). This allows you to get sensor activity from multiple topics.
 
+## v3.0.2 - 2020-03-26
+### Added
+- Errors throw friendly log messages and the process stops gracefully.
+- Added a minimum count of 1 to sensors.
+
+**Setup via Config UI X settings or manually added to config.json:**
+- If config not populated correctly or missing parameters then no Fatal Errors in Homebridge are thrown instead a message advising the config has been created but not populated correctly is added to the log and the process stops gracefully.
+
+
 ## v3.0.1 - 2020-03-25
 ### Fixed
 #### Keyfobs

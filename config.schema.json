@@ -77,7 +77,7 @@
 			"type": "object",
 			"properties": {
 				"targetStates": {
-					"title": "Target States (Enable/Disbale)",
+					"title": "Target States (Enable/Disable)",
 					"type": "object",
 					"properties": {
 						"stayArm": {
@@ -212,7 +212,7 @@
 								"rfkeyTopic": {
 									"title": "RFKey Topic",
 									"type": "string",
-									"description": "RFKey topic published to notify siren of a state change (required to set/trigger siren from Homekit)",
+									"description": "RFKey topic published to notify siren of a state change (required to set/trigger siren from HomeKit)",
 									"required": false,
 									"placeholder": "e.g. cmnd/rfbridge/rfkey1"
 								}
@@ -312,6 +312,7 @@
 					"key": "sensor",
 					"nodescription": true,
 					"notitle": true,
+					"minItems": 1,
 					"items": [
 						{
 							"type": "fieldset",
