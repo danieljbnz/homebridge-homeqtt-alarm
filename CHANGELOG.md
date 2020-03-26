@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Time delay before disarm
 - Sensor zones (group sensors into zones)
 - Enable / disable by zone
-- Option to override topic per sensor (would default to main sensorTopic). This allows you to get sensor activity from multiple topics.
+- Option to override topic per sensor (would default 'messageTopic'). This allows you to get sensor activity from multiple topics.
 
 ## v3.0.4 - 2020-03-26
 ### Added
