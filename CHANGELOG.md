@@ -12,6 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enable / disable by zone
 - Option to override topic per sensor (would default to 'messageTopic'). This allows you to get sensor activity from multiple topics.
 
+## v3.0.6 - 2020-03-27
+### Changed
+- Awesome new logo created and designed by @mxdanger
+
+<a href="https://github.com/homebridge/verified/blob/master/verified-plugins.json"><img alt="Homebridge Verified" src="https://raw.githubusercontent.com/nzbullet/homebridge-homeqtt-alarm/media/Homebridge%20x%20Homeqtt%20Alarm.svg?sanitize=true" width="250px"></a>
+
 ## v3.0.5 - 2020-03-26
 ### Fixed 
 -  If an invalid mqtt url is entered it will no longer shutdown Homebridge.
