@@ -178,7 +178,12 @@ function homeqttAlarmAccessory(log, config) {
 			}));
 		}
 		// Connect to MQTT
-		this.client = mqtt.connect(mqttBroker, options);
+		try {
+			this.client = mqtt.connect(mqttBroker, options);
+		} catch (e) {
+			log.error(e);
+			return;
+		}
 		// MQTT Connection Error
 		this.client.on('error', function () {
 			log('Error event on MQTT');
