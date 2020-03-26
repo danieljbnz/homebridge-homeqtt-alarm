@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/homebridge/verified/blob/master/verified-plugins.json"><img alt="Homebridge Verified" src="https://raw.githubusercontent.com/nzbullet/homebridge-homeqtt-alarm/master/media/Homebridge_x_Homeqtt_Alarm.svg?sanitize=true" width="500px"></a>
+  <a href="https://github.com/homebridge/verified/blob/master/verified-plugins.json"><img alt="Homebridge Verified" src="https://raw.githubusercontent.com/nzbullet/homebridge-homeqtt-alarm/media/Homebridge%20x%20Homeqtt%20Alarm.svg?sanitize=true" width="500px"></a>
 </p>
 
 # Homeqtt Alarm
@@ -11,8 +11,6 @@
 [![Homebridge](https://img.shields.io/badge/Platform-Homebridge-blueviolet)](https://homebridge.io/)
 [![MQTT](https://img.shields.io/badge/Platform-MQTT-blueviolet)](http://mqtt.org/)
 [![verified-by-homebridge](https://badgen.net/badge/Homebridge/Verified/purple)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins)
-
-![Homeqtt_Alarm](../media/homeqtt_logo_300.png?raw=true)
 
 Homebridge MQTT Security Alarm Plugin for HomeKit.
 
