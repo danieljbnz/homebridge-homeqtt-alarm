@@ -1,3 +1,7 @@
+<p align="center">
+  <a href="https://github.com/homebridge/verified/blob/master/verified-plugins.json"><img alt="Homebridge Verified" src="https://raw.githubusercontent.com/nzbullet/homebridge-homeqtt-alarm/master/media/Homebridge_x_Homeqtt_Alarm.svg?sanitize=true" width="500px"></a>
+</p>
+
 # Homeqtt Alarm
 [![Downloads](https://img.shields.io/npm/dt/homebridge-homeqtt-alarm?color=blue&label=Downloads)](https://www.npmjs.com/package/homebridge-homeqtt-alarm)
 [![NPM Version](https://img.shields.io/npm/v/homebridge-homeqtt-alarm/latest?label=NPM%20Version)](https://www.npmjs.com/package/homebridge-homeqtt-alarm)
@@ -40,20 +44,20 @@ Note: NFC Tag Support (arm/disarm the without using the Home app) is not a featu
 ## Keyfob and Siren:
 - Maximum of 4 Keyfobs can be linked to the RF Bridge
 - You *don't* need to have a siren to use a keyfob with HomeKit, however, you *do* need to have a keyfob to use a siren
-- The Sonoff RF Bridge will receive codes from a keyfob on the same topic as the sensors without any linking. 
-- If you have a siren you need to link your Keyfob to **both** your Sonoff RF Bridge and the Siren. 
+- The Sonoff RF Bridge will receive codes from a keyfob on the same topic as the sensors without any linking.
+- If you have a siren you need to link your Keyfob to **both** your Sonoff RF Bridge and the Siren.
     - Once linked you will be able to arm, disarm or trigger the siren from the keyfob and/or HomeKit.
     - To link the keyfob to the siren follow the instructions of the siren
-    - To link the remote to the RF Bridge (to be able to use the siren with HomeKit) publish the value `2` to `cmnd/rfbridge/rfkeyX` (replace X with a value from 1-16) then press the button on the remote you wish to link (e.g. Away Arm or SOS etc). 
+    - To link the remote to the RF Bridge (to be able to use the siren with HomeKit) publish the value `2` to `cmnd/rfbridge/rfkeyX` (replace X with a value from 1-16) then press the button on the remote you wish to link (e.g. Away Arm or SOS etc).
 
-# Prerequisites 
+# Prerequisites
 1. You have [Homebridge](https://github.com/nfarina/homebridge  "Homebridge") Installed
 2. You have an MQTT Server Running
 3. Your MQTT server receives codes when sensors are triggered (e.g 433Mhz contact sensor to Sonoff RF Bridge) - See [Recommended Hardware](#recommended-hardware) above)
 4. You have made a coffee
 
 # Installation
-There are two methods to this madness... 
+There are two methods to this madness...
 1. [Automated](#automated-installation-with-homebridge-config-ui-x) install and configuration via [Homebridge Config UI X](https://www.npmjs.com/package/homebridge-config-ui-x  "Homebridge Config UI X") [*recommended*]
 2. [Manual](#manual-installation-via-cli) install via CLI and manually updating your Homebridge configuration file
 
@@ -162,7 +166,7 @@ If you are configuring the system manually you need to add an accessory block to
     }
 }
 ```
-Add more **sensors** and **keyfobs** (max 4) as required. 
+Add more **sensors** and **keyfobs** (max 4) as required.
 
 This is a basic example. For a fully populated example see the [example-config.json](https://github.com/nzbullet/homebridge-homeqtt-alarm/blob/master/example-config.json)
 
@@ -177,5 +181,4 @@ HomeKit alarm states are mapped as follows:
 | ALARM_TRIGGERED       | 4            | Triggered      | Alarm has been triggered                                  |
 
 # Planned Features
-See the [Changelog](https://github.com/nzbullet/homebridge-homeqtt-alarm/blob/master/CHANGELOG.md) for upcoming/planned features. 
- 
+See the [Changelog](https://github.com/nzbullet/homebridge-homeqtt-alarm/blob/master/CHANGELOG.md) for upcoming/planned features.
