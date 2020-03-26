@@ -59,6 +59,53 @@ function homeqttAlarmAccessory(log, config) {
 		log('Stopping: You have not setup your MQTT Config in your config.json')
 		return; // Error
 	}
+	// MQTT Broker connection settings
+	if (this.mqttConfig && config.mqttConfig.url) {
+		var mqttClientId = config.name.replace(/[^\x20-\x7F]/g, "") + '_' + Math.random().toString(16).substr(2, 8);
+		var mqttBroker = config.mqttConfig.url // MQTT Broker URL and Port
+		var options = {
+			keepalive: 45,
+			clientId: mqttClientId,
+			protocolId: 'MQTT',
+			protocolVersion: 4,
+			clean: true,
+			reconnectPeriod: 1000,
+			connectTimeout: 30 * 1000,
+			will: {
+				topic: 'WillMsg',
+				payload: 'Connection closed abnormally!',
+				qos: 0,
+				retain: false
+			},
+			username: config.mqttConfig.username,
+			password: config.mqttConfig.password,
+			rejectUnauthorized: false
+		};
+		// Show MQTT Options in log
+		if (this.debug) {
+			log('Setup: MQTT Broker: ' + mqttBroker);
+			log('Setup: MQTT Options: ' + JSON.stringify(options, function (key, value) {
+				if (key == "password") {
+					return undefined; // filter out
+				}
+				return value;
+			}));
+		}
+		// Connect to MQTT
+		try {
+			this.client = mqtt.connect(mqttBroker, options);
+		} catch (e) {
+			log.error(e);
+			return;
+		}
+		// MQTT Connection Error
+		this.client.on('error', function () {
+			log('Error event on MQTT');
+		});
+	} else {
+		log('Stopping: MQTT Has not been set up in config.json')
+		return; // Error
+	}
 	// MQTT Topics
 	if (config.alarmTopics) {
 		// Settings Topics (does not include RF Key Topics)
@@ -145,54 +192,7 @@ function homeqttAlarmAccessory(log, config) {
 	} else {
 		log("Setup: No Keyfob available")
 	};
-	// MQTT Broker connection settings
-	if (this.mqttConfig && config.mqttConfig.url) {
-		var mqttClientId = config.name.replace(/[^\x20-\x7F]/g, "") + '_' + Math.random().toString(16).substr(2, 8);
-		var mqttBroker = config.mqttConfig.url // MQTT Broker URL and Port
-		var options = {
-			keepalive: 45,
-			clientId: mqttClientId,
-			protocolId: 'MQTT',
-			protocolVersion: 4,
-			clean: true,
-			reconnectPeriod: 1000,
-			connectTimeout: 30 * 1000,
-			will: {
-				topic: 'WillMsg',
-				payload: 'Connection closed abnormally!',
-				qos: 0,
-				retain: false
-			},
-			username: config.mqttConfig.username,
-			password: config.mqttConfig.password,
-			rejectUnauthorized: false
-		};
-		// Show MQTT Options in log
-		if (this.debug) {
-			log('Setup: MQTT Broker: ' + mqttBroker);
-			log('Setup: MQTT Options: ' + JSON.stringify(options, function (key, value) {
-				if (key == "password") {
-					return undefined; // filter out
-				}
-				return value;
-			}));
-		}
-		// Connect to MQTT
-		try {
-			this.client = mqtt.connect(mqttBroker, options);
-		} catch (e) {
-			log.error(e);
-			return;
-		}
-		// MQTT Connection Error
-		this.client.on('error', function () {
-			log('Error event on MQTT');
-		});
-	} else {
-		log('Stopping: MQTT Has not been set up in config.json')
-		return; // Error
-	}
-
+	
 	// Set initial state to disarmed
 	log('Setup: Setting initial HomeKit state to disarmed');
 	this.readstate = Characteristic.SecuritySystemCurrentState.DISARMED;
