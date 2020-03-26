@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased / Planned Features
 - Time delay before arm
-- Time delay before disarm
+- Time delay before trigger
 - Sensor zones (group sensors into zones)
 - Enable / disable by zone
 - Option to override topic per sensor (would default 'messageTopic'). This allows you to get sensor activity from multiple topics.
