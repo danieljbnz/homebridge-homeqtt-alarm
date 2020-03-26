@@ -79,7 +79,7 @@ Once the plugin is installed you will be presented with the settings page to pop
 
 | Settings Option             | config.json Value                | Required | Description                                                               | Type     | Default / Example Value  |
 |-----------------------------|----------------------------------|:--------:|---------------------------------------------------------------------------|:--------:|--------------------------|
-| Name                        | name                             | Yes      | Name of the alarm in HomeKit                                              | String   | Homeqtt                  |
+| Name                        | name                             | Yes      | Name of the alarm in HomeKit                                              | String   | Homeqtt                 |
 | N/A (auto set by settings)  | accessory                        | Yes      | Homebridge plugin accessory identifier                                    | String   | homebridge-homeqtt-alarm |
 | MQTT Broker URL:Port        | mqttConfig/url                   | Yes      | URL and Port of your MQTT broker                                          | URL      | mqtt://URL:PORT          |
 | MQTT Username               | mqttConfig/username              | No       | Your MQTT Broker username (optional)                                      | String   | username                 |

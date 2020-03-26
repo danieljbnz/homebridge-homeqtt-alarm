@@ -3,7 +3,7 @@
 	"pluginType": "accessory",
 	"singular": true,
 	"headerDisplay": "MQTT must be installed on your system",
-	"footerDisplay": "For help please see the [Readme](https://github.com/nzbullet/homebridge-homeqtt-alarm/blob/master/README.md).",
+	"footerDisplay": "For help please see the [README](https://github.com/nzbullet/homebridge-homeqtt-alarm/blob/master/README.md).",
 	"schema": {
 		"name": {
 			"title": "Name",

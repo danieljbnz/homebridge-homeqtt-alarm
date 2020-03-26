@@ -201,51 +201,40 @@ function homeqttAlarmAccessory(log, config) {
 		// Set HomeKit Alarm based on Keyfob Button presses
 		if (that.keyfob === true && topic === that.alarmTopics.messageTopic) {
 			for (let keyfob in that.keyfobs) {
-
 				if (that.keyfobs[keyfob].enabled === true) {
 					for (let button in that.keyfobs[keyfob].buttons) {
-						if (that.keyfobs[keyfob].buttons[button].MQTTCode) {
-							if (that.keyfobs[keyfob].buttons[button].enabled === true && message.indexOf(that.keyfobs[keyfob].buttons[button].MQTTCode) !== -1) {
-								if (that.keyfobs[keyfob].buttons[button].alarmState) {
-									var stateName = that.keyfobs[keyfob].buttons[button].alarmState
-									switch (stateName) {
-										case that.commandStayArm:
-											stateName = 'STAY_ARM'
-											break;
-										case that.commandAwayArm:
-											stateName = 'AWAY_ARM'
-											break;
-										case that.commandNightArm:
-											stateName = 'NIGHT_ARM'
-											break;
-										case that.commandDisarmed:
-											stateName = 'DISARMED'
-											break;
-										case that.commandTriggered:
-											stateName = 'ALARM_TRIGGERED'
-											break;
-										default:
-											stateName = null;
-											break;
-									}
-									if (that.debug) {
-										log("Keyfob Button Pressed:", stateName, "(", that.keyfobs[keyfob].buttons[button].alarmState, ")")
-									}
-									if (stateName === 'ALARM_TRIGGERED') {
-										that.securityService.setCharacteristic(Characteristic.SecuritySystemCurrentState, that.commandTriggered);
-										that.client.publish(that.alarmTopics.getCurrentStateTopic, that.stateTriggered);
-									}
-									if (stateName !== 'ALARM_TRIGGERED') {
-										that.securityService.setCharacteristic(Characteristic.SecuritySystemTargetState, that.keyfobs[keyfob].buttons[button].alarmState);
-									}
-								} else {
-									if (that.debug) {
-										log('Button Alarm State has not been set in config.json')
-									}
-								}
+						if (that.keyfobs[keyfob].buttons[button].enabled === true && message.indexOf(that.keyfobs[keyfob].buttons[button].MQTTCode) !== -1) {
+							var stateName = that.keyfobs[keyfob].buttons[button].alarmState
+							switch (stateName) {
+								case that.commandStayArm:
+									stateName = 'STAY_ARM'
+									break;
+								case that.commandAwayArm:
+									stateName = 'AWAY_ARM'
+									break;
+								case that.commandNightArm:
+									stateName = 'NIGHT_ARM'
+									break;
+								case that.commandDisarmed:
+									stateName = 'DISARMED'
+									break;
+								case that.commandTriggered:
+									stateName = 'ALARM_TRIGGERED'
+									break;
+								default:
+									stateName = null;
+									break;
 							}
-						} else {
-							log('Button MQTT Code has not been provided in config.json')
+							if (that.debug) {
+								log("Keyfob Button Pressed:", stateName, "(", that.keyfobs[keyfob].buttons[button].alarmState, ")")
+							}
+							if (stateName === 'ALARM_TRIGGERED') {
+								that.securityService.setCharacteristic(Characteristic.SecuritySystemCurrentState, that.commandTriggered);
+								that.client.publish(that.alarmTopics.getCurrentStateTopic, that.stateTriggered);
+							}
+							if (stateName !== 'ALARM_TRIGGERED') {
+								that.securityService.setCharacteristic(Characteristic.SecuritySystemTargetState, that.keyfobs[keyfob].buttons[button].alarmState);
+							}
 						}
 					}
 
@@ -319,53 +308,42 @@ function homeqttAlarmAccessory(log, config) {
 		if (topic == that.alarmTopics.messageTopic) {
 			for (let sensor in that.sensor) {
 				// Sensor is in MQTT message
-				if (that.sensor[sensor].MQTTCode) {
-					if (message.indexOf(that.sensor[sensor].MQTTCode) !== -1) {
-						// Sensor is enabled and alarm is not Disarmed
-						if (that.sensor[sensor].enabled === true && that.readstate != 3) {
-							// If sensor is allowed in the enabled state (and alarm is triggered)
-							if (that.sensor[sensor].allowStay === true && that.readstate === 0) {
-								triggerAlarm.call()
-							}
-							if (that.sensor[sensor].allowAway === true && that.readstate === 1) {
-								triggerAlarm.call()
-							}
-							if (that.sensor[sensor].allowNight === true && that.readstate === 2) {
-								triggerAlarm.call()
-							}
-							// Trigger Alarm Function
-							function triggerAlarm() {
-								log('Sensor Triggered:', that.sensor[sensor].location, '(', that.sensor[sensor].MQTTCode, ')')
-								// MQTT Publish Triggered 
-								that.client.publish(that.alarmTopics.getTargetStateTopic, that.stateTriggered);
-								// Trigger Alarm in HomeKit
-								that.securityService.setCharacteristic(Characteristic.SecuritySystemCurrentState, that.commandTriggered);
-								// Trigger Siren if enabled
-								if (that.keyfob === true && that.siren.enabled === true) {
-									for (let keyfob in that.keyfobs) {
-										if (that.keyfobs[keyfob].enabled === true) {
-											for (let button in that.keyfobs[keyfob].buttons) {
-												if (that.keyfobs[keyfob].buttons[button].alarmState) {
-													if (that.keyfobs[keyfob].buttons[button].enabled === true && that.keyfobs[keyfob].buttons[button].alarmState === that.commandTriggered) {
-														if (that.keyfobs[keyfob].buttons[button].MQTTCode) {
-															that.client.publish(that.keyfobs[keyfob].buttons[button].rfkeyTopic, that.keyfobs[keyfob].buttons[button].MQTTCode);
-														} else {
-															log('Button MQTT Code has not been provided in config.json')
-														}
-													}
-												} else {
-													log('Button alarm state has not been set in config.json')
-												}
+
+				if (message.indexOf(that.sensor[sensor].MQTTCode) !== -1) {
+					// Sensor is enabled and alarm is not Disarmed
+					if (that.sensor[sensor].enabled === true && that.readstate != 3) {
+						// If sensor is allowed in the enabled state (and alarm is triggered)
+						if (that.sensor[sensor].allowStay === true && that.readstate === 0) {
+							triggerAlarm.call()
+						}
+						if (that.sensor[sensor].allowAway === true && that.readstate === 1) {
+							triggerAlarm.call()
+						}
+						if (that.sensor[sensor].allowNight === true && that.readstate === 2) {
+							triggerAlarm.call()
+						}
+						// Trigger Alarm Function
+						function triggerAlarm() {
+							log('Sensor Triggered:', that.sensor[sensor].location, '(', that.sensor[sensor].MQTTCode, ')')
+							// MQTT Publish Triggered 
+							that.client.publish(that.alarmTopics.getTargetStateTopic, that.stateTriggered);
+							// Trigger Alarm in HomeKit
+							that.securityService.setCharacteristic(Characteristic.SecuritySystemCurrentState, that.commandTriggered);
+							// Trigger Siren if enabled
+							if (that.keyfob === true && that.siren.enabled === true) {
+								for (let keyfob in that.keyfobs) {
+									if (that.keyfobs[keyfob].enabled === true) {
+										for (let button in that.keyfobs[keyfob].buttons) {
+											if (that.keyfobs[keyfob].buttons[button].enabled === true && that.keyfobs[keyfob].buttons[button].alarmState === that.commandTriggered) {
+												that.client.publish(that.keyfobs[keyfob].buttons[button].rfkeyTopic, that.keyfobs[keyfob].buttons[button].MQTTCode);
 											}
 										}
 									}
-									log("Siren Triggered")
 								}
+								log("Siren Triggered")
 							}
 						}
 					}
-				} else {
-					log('Sensor MQTT Code has not been provided in config.json')
 				}
 			}
 		}
