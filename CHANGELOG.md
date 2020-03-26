@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Option to override topic per sensor (would default to 'messageTopic'). This allows you to get sensor activity from multiple topics.
 
 ## v3.0.5 - 2020-03-26
-### Fixed
+### Fixed 
 -  If an invalid mqtt url is entered it will no longer shutdown Homebridge.
 
 ## v3.0.4 - 2020-03-26
