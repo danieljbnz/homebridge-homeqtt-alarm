@@ -351,12 +351,10 @@ function homeqttAlarmAccessory(log, config) {
 															that.client.publish(that.keyfobs[keyfob].buttons[button].rfkeyTopic, that.keyfobs[keyfob].buttons[button].MQTTCode);
 														} else {
 															log('Button MQTT Code has not been provided in config.json')
-															return; // Error
 														}
 													}
 												} else {
 													log('Button alarm state has not been set in config.json')
-													return; // Error
 												}
 											}
 										}
@@ -368,7 +366,6 @@ function homeqttAlarmAccessory(log, config) {
 					}
 				} else {
 					log('Sensor MQTT Code has not been provided in config.json')
-					return; // Error
 				}
 			}
 		}
@@ -394,7 +391,6 @@ function homeqttAlarmAccessory(log, config) {
 								}
 							} else {
 								log('Stopping: Button RFKey Topic has not been provided in config.json')
-								return; // Error
 							}
 						}
 					}

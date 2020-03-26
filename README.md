@@ -98,8 +98,8 @@ Once the plugin is installed you will be presented with the settings page to pop
 | Allow Sensor for Away Arm?  | sensor/allowAway                 | No       | Usually ALL sensors                                                       | Boolean  | true / false             |
 | Allow Sensor for Night Arm? | sensor/allowNight                | No       | Usually ALL entry-point sensors and SOME internal sensors                 | Boolean  | true / false             |
 | Do you have a Keyfob?       | keyfob                           | No       | Show/hide keyfob settings                                                 | Boolean  | true / false             |
-| Keyfob Enabled?             | keyfobs/enabled                   | No       | Enable or disable keyfob                                                  | Boolean  | true / false             |
-| Keyfob Name                 | keyfobs/name                      | No       | Friendly name of your keyfob                                              | String   | Dad Keyfob               |
+| Keyfob Enabled?             | keyfobs/enabled                  | No       | Enable or disable keyfob                                                  | Boolean  | true / false             |
+| Keyfob Name                 | keyfobs/name                     | No       | Friendly name of your keyfob                                              | String   | Dad Keyfob               |
 | Enable Button?              | keyfobs/buttons/enabled          | No       | Enable or disable button                                                  | Boolean  | true / false             |
 | Button Alarm State          | keyfobs/buttons/alarmState       | No       | Alarm state sent when button pressed (state must be enabled in Alarm Settings) | Integer | 0, 1, 2, 3, 4   |
 | Button MQTT Code            | keyfobs/buttons/MQTTCode         | No       | Enter the MQTT code received when pressing button on keyfob               | String   | 12345L                   |
