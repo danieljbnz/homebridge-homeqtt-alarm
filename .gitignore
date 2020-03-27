@@ -1,6 +1,9 @@
 # Dependency directory
 node_modules
 
+# Local VSCode Settings
+.vscode
+
 # Optional npm cache directory
 .npm
 
