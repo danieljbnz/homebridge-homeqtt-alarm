@@ -30,33 +30,6 @@
             "allowNight": true
         },
         {
-            "sensorType": "pirSensor",
-            "location": "Hallway PIR",
-            "MQTTCode": "F3A6CE",
-            "enabled": false,
-            "allowStay": false,
-            "allowAway": true,
-            "allowNight": true
-        },
-        {
-            "sensorType": "pirSensor",
-            "location": "Master Bedroom PIR",
-            "MQTTCode": "F8B81E",
-            "enabled": true,
-            "allowStay": false,
-            "allowAway": true,
-            "allowNight": false
-        },
-        {
-            "sensorType": "contactSensor",
-            "location": "Front Door",
-            "MQTTCode": "092F73",
-            "enabled": true,
-            "allowStay": true,
-            "allowAway": true,
-            "allowNight": true
-        },
-        {
             "sensorType": "contactSensor",
             "location": "Back Door",
             "MQTTCode": "08F5A3",
@@ -70,28 +43,28 @@
     "keyfobs": [
         {
             "enabled": true,
-            "name":"Dad Keyfob",
+            "name": "Dad Keyfob",
             "buttons": [
                 {
-                    "enabled":true,
+                    "enabled": true,
                     "alarmState": 0,
                     "MQTTCode": "B74C84",
                     "rfkeyTopic": "cmnd/rfbridge/rfkey1"
                 },
                 {
-                    "enabled":true,
+                    "enabled": true,
                     "alarmState": 1,
                     "MQTTCode": "B74C81",
                     "rfkeyTopic": "cmnd/rfbridge/rfkey2"
                 },
                 {
-                    "enabled":true,
+                    "enabled": true,
                     "alarmState": 3,
                     "MQTTCode": "B74C82",
                     "rfkeyTopic": "cmnd/rfbridge/rfkey3"
                 },
                 {
-                    "enabled":true,
+                    "enabled": true,
                     "alarmState": 4,
                     "MQTTCode": "B74C88",
                     "rfkeyTopic": "cmnd/rfbridge/rfkey4"
@@ -99,29 +72,29 @@
             ]
         },
         {
-            "enabled": true,
-            "name":"Mum Keyfob",
+            "enabled": false,
+            "name": "Mum Keyfob",
             "buttons": [
                 {
-                    "enabled":true,
+                    "enabled": false,
                     "alarmState": 0,
                     "MQTTCode": "C74C84",
                     "rfkeyTopic": "cmnd/rfbridge/rfkey5"
                 },
                 {
-                    "enabled":true,
+                    "enabled": true,
                     "alarmState": 1,
                     "MQTTCode": "C74C81",
                     "rfkeyTopic": "cmnd/rfbridge/rfkey6"
                 },
                 {
-                    "enabled":true,
+                    "enabled": true,
                     "alarmState": 3,
                     "MQTTCode": "C74C82",
                     "rfkeyTopic": "cmnd/rfbridge/rfkey7"
                 },
                 {
-                    "enabled":true,
+                    "enabled": true,
                     "alarmState": 4,
                     "MQTTCode": "C74C88",
                     "rfkeyTopic": "cmnd/rfbridge/rfkey8"
