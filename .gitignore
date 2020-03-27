@@ -1,12 +1,8 @@
 # Dependency directory
 node_modules
 
-# Media Directory
-media
-
 # Optional npm cache directory
 .npm
-.npmignore
 
 #Apple Hidden DS_STORE Files
 .DS_Store
