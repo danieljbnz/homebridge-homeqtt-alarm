@@ -41,8 +41,8 @@ There are two methods to this madness...
 
 # Configuration
 Once the installation is complete you will need to configure the plugin: 
-- [Config UI X Settings](https://github.com/nzbullet/homebridge-homeqtt-alarm/wiki/Configuration:-Config-UI-X) from your Homebridge instance.
-- [Manually](https://github.com/nzbullet/homebridge-homeqtt-alarm/wiki/Configuration:-Manual) in your config.json.
+- [Config UI X Settings](https://github.com/nzbullet/homebridge-homeqtt-alarm/wiki/Configuration#config-ui-x-configuration) from your Homebridge instance.
+- [Manually](https://github.com/nzbullet/homebridge-homeqtt-alarm/wiki/Configuration#manual-configuration) in your config.json.
 
 # Planned Features
 See the [Changelog](https://github.com/nzbullet/homebridge-homeqtt-alarm/blob/master/CHANGELOG.md) for upcoming/planned features.
