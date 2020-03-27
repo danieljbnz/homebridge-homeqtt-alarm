@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/homebridge/verified/blob/master/verified-plugins.json"><img alt="Homebridge Verified" src="https://raw.githubusercontent.com/nzbullet/homebridge-homeqtt-alarm/media/Homebridge%20x%20Homeqtt%20Alarm.svg?sanitize=true" width="500px"></a>
+  <a href="https://github.com/homebridge/verified/blob/master/verified-plugins.json"><img alt="Homebridge Verified" src="https://raw.githubusercontent.com/nzbullet/homebridge-homeqtt-alarm/master/media/Homebridge%20x%20Homeqtt%20Alarm.svg?sanitize=true" width="500px"></a>
 </p>
 
 # Homeqtt Alarm
