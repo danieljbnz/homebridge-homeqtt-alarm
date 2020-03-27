@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Awesome new logo created and designed by [@mxdanger](https://github.com/mxdanger)
 
-<a href="https://github.com/homebridge/verified/blob/master/verified-plugins.json"><img alt="Homebridge Verified" src="https://raw.githubusercontent.com/nzbullet/homebridge-homeqtt-alarm/master/media/Homebridge%20x%20Homeqtt%20Alarm.svg?sanitize=true" width="250px"></a>
+<a href="https://github.com/homebridge/homebridge/wiki/Verified-Plugins"><img alt="Homebridge Verified" src="https://raw.githubusercontent.com/nzbullet/homebridge-homeqtt-alarm/master/media/Homebridge%20x%20Homeqtt%20Alarm.svg?sanitize=true" width="250px"></a>
 
 ## [v3.0.5](https://github.com/nzbullet/homebridge-homeqtt-alarm/compare/v3.0.4...v3.0.5) (2020-03-26)
 ### Fixed 
