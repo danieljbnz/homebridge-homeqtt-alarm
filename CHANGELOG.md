@@ -12,6 +12,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enable / disable by zone
 - Option to override topic per sensor (would default to 'messageTopic'). This allows you to get sensor activity from multiple topics.
 
+
+## [v3.0.7](https://github.com/nzbullet/homebridge-homeqtt-alarm/compare/v3.0.6...v3.0.7) (2020-04-04)
+### Fixed 
+-  If a button state is enabled but the associated alarm state is disabled it would still fire the message. 
+   -  This has been fixed and now a log message is received advsing that you pushed a button that's associated with a disabled state.
+  
+### Changed
+- Debug messages are clearer.
+- Only minimal log messages are shown if 'Debug' is not enable in your config.json
+- Lots of code tidy up.
+- Enabled [Wiki](https://github.com/nzbullet/homebridge-homeqtt-alarm/wiki) on Github
+- Updated README to be static and moved detail to Wiki
+
+
 ## [v3.0.6](https://github.com/nzbullet/homebridge-homeqtt-alarm/compare/v3.0.5...v3.0.6) (2020-03-27)
 ### Changed
 - Awesome new logo created and designed by [@mxdanger](https://github.com/mxdanger)

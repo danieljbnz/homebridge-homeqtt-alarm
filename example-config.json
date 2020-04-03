@@ -3,7 +3,7 @@
     "accessory": "homebridge-homeqtt-alarm",
     "debug": true,
     "mqttConfig": {
-        "url": "mqtt://192.168.1.40:1883",
+        "url": "mqtt://192.168.1.90:1883",
         "username": "USERNAME",
         "password": "PASSWORD"
     },
@@ -23,7 +23,7 @@
         {
             "sensorType": "pirSensor",
             "location": "Front Room PIR",
-            "MQTTCode": "F4299E",
+            "MQTTCode": "F5678E",
             "enabled": true,
             "allowStay": false,
             "allowAway": true,
@@ -32,7 +32,7 @@
         {
             "sensorType": "contactSensor",
             "location": "Back Door",
-            "MQTTCode": "08F5A3",
+            "MQTTCode": "09F5A4",
             "enabled": true,
             "allowStay": true,
             "allowAway": true,
@@ -48,25 +48,25 @@
                 {
                     "enabled": true,
                     "alarmState": 0,
-                    "MQTTCode": "B74C84",
+                    "MQTTCode": "D88C84",
                     "rfkeyTopic": "cmnd/rfbridge/rfkey1"
                 },
                 {
                     "enabled": true,
                     "alarmState": 1,
-                    "MQTTCode": "B74C81",
+                    "MQTTCode": "D88C81",
                     "rfkeyTopic": "cmnd/rfbridge/rfkey2"
                 },
                 {
                     "enabled": true,
                     "alarmState": 3,
-                    "MQTTCode": "B74C82",
+                    "MQTTCode": "D88C82",
                     "rfkeyTopic": "cmnd/rfbridge/rfkey3"
                 },
                 {
                     "enabled": true,
                     "alarmState": 4,
-                    "MQTTCode": "B74C88",
+                    "MQTTCode": "D88C88",
                     "rfkeyTopic": "cmnd/rfbridge/rfkey4"
                 }
             ]
@@ -78,25 +78,25 @@
                 {
                     "enabled": false,
                     "alarmState": 0,
-                    "MQTTCode": "C74C84",
+                    "MQTTCode": "F99C84",
                     "rfkeyTopic": "cmnd/rfbridge/rfkey5"
                 },
                 {
                     "enabled": true,
                     "alarmState": 1,
-                    "MQTTCode": "C74C81",
+                    "MQTTCode": "F99C81",
                     "rfkeyTopic": "cmnd/rfbridge/rfkey6"
                 },
                 {
                     "enabled": true,
                     "alarmState": 3,
-                    "MQTTCode": "C74C82",
+                    "MQTTCode": "F99C82",
                     "rfkeyTopic": "cmnd/rfbridge/rfkey7"
                 },
                 {
                     "enabled": true,
                     "alarmState": 4,
-                    "MQTTCode": "C74C88",
+                    "MQTTCode": "F99C88",
                     "rfkeyTopic": "cmnd/rfbridge/rfkey8"
                 }
             ]
