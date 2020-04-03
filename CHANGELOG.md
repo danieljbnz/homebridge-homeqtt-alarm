@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v3.0.7](https://github.com/nzbullet/homebridge-homeqtt-alarm/compare/v3.0.6...v3.0.7) (2020-04-04)
 ### Fixed 
 -  If a button state is enabled but the associated alarm state is disabled it would still fire the message. 
-   -  This has been fixed and now a log message is received advsing that you pushed a button that's associated with a disabled state.
+   -  This has been fixed and now a log message is received advising that you pushed a button that's associated with a disabled state.
   
 ### Changed
 - Debug messages are clearer.

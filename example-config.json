@@ -46,7 +46,7 @@
             "name": "Dad Keyfob",
             "buttons": [
                 {
-                    "enabled": true,
+                    "enabled": false,
                     "alarmState": 0,
                     "MQTTCode": "D88C84",
                     "rfkeyTopic": "cmnd/rfbridge/rfkey1"
