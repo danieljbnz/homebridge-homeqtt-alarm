@@ -24,9 +24,9 @@ This plugin sets up an alarm in HomeKit, then allows you to connect Homebridge t
 - Give sensors a location (i.e. a nice name)
 - Globally enable/disable individual sensors
 - Set sensors for only certain states
-- Set Away Arm, Stay Arm, Disarm from keyfob
-- Enable/Disable siren
-- Trigger the HomeKit alarm with the SOS button on the keyfob
+- Set Away Arm, Stay Arm, Disarm from a keyfob
+- Trigger HomeKit alarm with the SOS button on a keyfob
+- Enable/Disable a siren
 
 # Prerequisites
 1. You have [Homebridge](https://github.com/nfarina/homebridge  "Homebridge") Installed
