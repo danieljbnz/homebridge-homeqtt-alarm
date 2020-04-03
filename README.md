@@ -31,7 +31,9 @@ This plugin sets up an alarm in HomeKit, then allows you to connect Homebridge t
 # Prerequisites
 1. You have [Homebridge](https://github.com/nfarina/homebridge  "Homebridge") Installed
 2. You have an MQTT Server Running
-3. Your MQTT server receives codes when sensors or keyfob button pushes are triggered (i.e. 433Mhz contact sensor to Sonoff RF Bridge - see [Recommended Hardware](https://github.com/nzbullet/homebridge-homeqtt-alarm/wiki/Recommended-Hardware))
+3. Your MQTT server receives codes when sensors or keyfob button pushes are triggered
+    <br><sup>(e.g. via 433Mhz contact sensor to Sonoff RF Bridge - see [Recommended Hardware](https://github.com/nzbullet/homebridge-homeqtt-alarm/wiki/Recommended-Hardware))</sup>
+
 4. You have made a coffee
 
 # Installation
