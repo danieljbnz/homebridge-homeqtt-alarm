@@ -60,15 +60,17 @@
 					"title": "Set Target State Topic",
 					"type": "string",
 					"description": "Topic published when the target alarm state is changed in HomeKit.",
-					"required": true,
-					"placeholder": "e.g. alarm/target"
+					"required": false,
+					"placeholder": "e.g. alarm/target",
+					"default": "alarm/target"
 				},
 				"getCurrentStateTopic": {
 					"title": "Get Current State Topic",
 					"type": "string",
 					"description": "Topic published to notify HomeKit of the current or triggered alarm state.",
-					"required": true,
-					"placeholder": "e.g. alarm/current"
+					"required": false,
+					"placeholder": "e.g. alarm/current",
+					"default": "alarm/current"
 				}
 			}
 		},

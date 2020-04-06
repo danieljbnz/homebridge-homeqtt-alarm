@@ -11,8 +11,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sensor zones (group sensors into zones)
 - Enable / disable by zone
 - Option to override topic per sensor (would default to 'messageTopic'). This allows you to get sensor activity from multiple topics.
+- Show sensors in HomeKit as individual items
 
+## [v3.0.8](https://github.com/nzbullet/homebridge-homeqtt-alarm/compare/v3.0.7...v3.0.8) (2020-04-07)
+### Fixed 
+- Homeqtt wasn't setting initial state if you've never had it installed before and was crashing. 
+  - Resolved - missing single line in index.js to set initial target state.
 
+### Changed
+- Added default values for alarm/current and alarm/target MQTT Topics
+  
 ## [v3.0.7](https://github.com/nzbullet/homebridge-homeqtt-alarm/compare/v3.0.6...v3.0.7) (2020-04-04)
 ### Fixed 
 -  If a button state is enabled but the associated alarm state is disabled it would still fire the message. 

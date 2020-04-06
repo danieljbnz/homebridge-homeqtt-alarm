@@ -274,6 +274,7 @@ function homeqttAlarmAccessory(log, config) {
 		that.debug('Setup: Enabled Alarm States -',targetstates);
 		// Set initial state to disarmed
 		this.readstate = Characteristic.SecuritySystemCurrentState.DISARMED;
+		that.securityService.setCharacteristic(Characteristic.SecuritySystemTargetState, this.readstate);
 		that.debug('Setup: Setting initial HomeKit state to DISARMED (', this.readstate, ')');
 		log('Setup Complete');
 	});
