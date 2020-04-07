@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Option to override topic per sensor (would default to 'messageTopic'). This allows you to get sensor activity from multiple topics.
 - Show sensors in HomeKit as individual items
 
+## [v3.0.9](https://github.com/nzbullet/homebridge-homeqtt-alarm/compare/v3.0.8...v3.0.9) (2020-04-07)
+### Fixed 
+- Previous v3.0.8 fix introduced an issue whereby if Homebridge is restarted the alarm state would return to DISARMED regardless of current state. This has been fixed and now if there is a current state it will not reset it to DISARMED on Homebridge restart.
+  
 ## [v3.0.8](https://github.com/nzbullet/homebridge-homeqtt-alarm/compare/v3.0.7...v3.0.8) (2020-04-07)
 ### Fixed 
 - Homeqtt wasn't setting initial state if you've never had it installed before and was crashing. 

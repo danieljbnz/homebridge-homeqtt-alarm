@@ -83,7 +83,7 @@ function homeqttAlarmAccessory(log, config) {
 	if (config.debug === true) {
 		this.debug = log;
 	} else {
-		this.debug = function(){};
+		this.debug = function () {};
 	}
 
 	// Name of sensor in HomeKit (Defaults to 'Homeqtt')
@@ -271,11 +271,7 @@ function homeqttAlarmAccessory(log, config) {
 		}
 		// Enable States
 		var targetstates = Object.keys(that.targetStates).filter(key => that.targetStates[key]);
-		that.debug('Setup: Enabled Alarm States -',targetstates);
-		// Set initial state to disarmed
-		this.readstate = Characteristic.SecuritySystemCurrentState.DISARMED;
-		that.securityService.setCharacteristic(Characteristic.SecuritySystemTargetState, this.readstate);
-		that.debug('Setup: Setting initial HomeKit state to DISARMED (', this.readstate, ')');
+		that.debug('Setup: Enabled Alarm States -', targetstates);
 		log('Setup Complete');
 	});
 	// MQTT Message Received
@@ -461,13 +457,23 @@ homeqttAlarmAccessory.prototype = {
 
 	getState: function (get, callback) {
 		let state = stateName(this.readstate);
-		if (this.readstate == '0' || this.readstate == '1' || this.readstate == '2' || this.readstate == '3' || this.readstate == '4') {
+		if (this.readstate == '0' || this.readstate == '1' || this.readstate == '2' || this.readstate == '3') {
 			if (get == 'current') {
 				this.debug('Current Alarm State:', state, '(', this.readstate, ')');
 			}
 			if (get == 'target') {
 				this.debug('Target Alarm State:', state, '(', this.readstate, ')');
-			} 
+			}
+			callback(null, this.readstate);
+		} else if (this.readstate == '4') {
+			if (get == 'current') {
+				this.debug('Current Alarm State:', state, '(', this.readstate, ')');
+			}
+			callback(null);
+		} else if (this.readstate === undefined) {
+			// Set initial state to disarmed when Homebridge first starts
+			this.readstate = 3;
+			this.debug('Setting initial HomeKit state to DISARMED (', this.readstate, ')');
 			callback(null, this.readstate);
 		} else {
 			this.debug('Received an invalid HomeKit State:', this.readstate, '- Should be one of 0,1,2,3,4. Please check your config.json for errors.');
@@ -496,7 +502,6 @@ homeqttAlarmAccessory.prototype = {
 		informationService.setCharacteristic(Characteristic.Manufacturer, this.manufacturer);
 		informationService.setCharacteristic(Characteristic.Model, this.model);
 		informationService.setCharacteristic(Characteristic.SerialNumber, packageJson.version);
-
 		this.securityService = new Service.SecuritySystem(this.name);
 		this.securityService
 			.getCharacteristic(Characteristic.SecuritySystemCurrentState)
@@ -509,7 +514,6 @@ homeqttAlarmAccessory.prototype = {
 			.getCharacteristic(Characteristic.SecuritySystemTargetState)
 			.on('get', this.getTargetState.bind(this))
 			.on('set', this.setTargetState.bind(this));
-
 		return [informationService, this.securityService];
 	}
 };
