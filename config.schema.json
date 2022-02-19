@@ -3,7 +3,7 @@
 	"pluginType": "accessory",
 	"singular": true,
 	"headerDisplay": "MQTT must be installed on your system",
-	"footerDisplay": "For help please see the [README](https://github.com/nzbullet/homebridge-homeqtt-alarm/blob/master/README.md).",
+	"footerDisplay": "For help please see the [README](https://github.com/danieljbnz/homebridge-homeqtt-alarm/blob/master/README.md).",
 	"schema": {
 		"name": {
 			"title": "Name",
@@ -101,6 +101,28 @@
 							"description": "Used when the home is occupied and residents are sleeping."
 						}
 					}
+				}
+			}
+		},
+		"alarmDelay": {
+			"title": "Alarm Delay Timeout (in Seconds)",
+			"type": "object",
+			"properties": {
+				"armDelay": {
+					"title": "Arm Delay",
+					"type": "integer",
+					"default": 0,
+					"description": "Time in seconds before alarm arms",
+					"required": false,
+					"placeholder": "e.g. 5"
+				},
+				"triggerDelay": {
+					"title": "Trigger Delay",
+					"type": "integer",
+					"default": 0,
+					"description": "Time in seconds before alarm triggers",
+					"required": false,
+					"placeholder": "e.g. 5"
 				}
 			}
 		},
@@ -302,6 +324,15 @@
 				"alarmSettings.targetStates.stayArm",
 				"alarmSettings.targetStates.awayArm",
 				"alarmSettings.targetStates.nightArm"
+			]
+		},
+		{
+			"type": "fieldset",
+			"expandable": true,
+			"title": "Alarm Delay",
+			"items": [
+				"alarmDelay.armDelay",
+				"alarmDelay.triggerDelay"
 			]
 		},
 		{
