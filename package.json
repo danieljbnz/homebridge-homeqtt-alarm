@@ -49,5 +49,5 @@
     "keyfob"
   ],
   "deprecated": false,
-  "private": true
+  "private": false
 }
