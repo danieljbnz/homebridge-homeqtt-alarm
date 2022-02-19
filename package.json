@@ -1,17 +1,17 @@
 {
   "name": "homebridge-homeqtt-alarm",
-  "version": "3.0.9",
+  "version": "3.1.0",
   "description": "Homebridge MQTT Security Alarm Plugin",
   "author": "Daniel Burgess",
   "main": "index.js",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/nzbullet/homebridge-homeqtt-alarm",
+  "homepage": "https://github.com/danieljbnz/homebridge-homeqtt-alarm",
   "bugs": {
-    "url": "https://github.com/nzbullet/homebridge-homeqtt-alarm/issues"
+    "url": "https://github.com/danieljbnz/homebridge-homeqtt-alarm/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nzbullet/homebridge-homeqtt-alarm.git"
+    "url": "git+https://github.com/danieljbnz/homebridge-homeqtt-alarm.git"
   },
   "files": [
     "README.md",
@@ -48,5 +48,6 @@
     "SOS",
     "keyfob"
   ],
-  "deprecated": false
+  "deprecated": false,
+  "private": true
 }
