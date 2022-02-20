@@ -201,17 +201,17 @@ function homeqttAlarmAccessory(log, config) {
 	// Delay Settings
 	if (config.alarmDelay.armDelay) {
 		this.armDelay = config.alarmDelay.armDelay;
-		log('Setup: Arm Delay: ', this.armDelay, 'sec');
+		log('Setup: Arm Delay:', this.armDelay, 'sec');
 	} else {
 		this.armDelay = 0;
-		log('Setup: Default Arm Delay: ', this.armDelay, 'sec');
+		log('Setup: Default Arm Delay:', this.armDelay, 'sec');
 	}
 	if (config.alarmDelay.triggerDelay) {
 		this.triggerDelay = config.alarmDelay.triggerDelay;
-		log('Setup: Trigger Delay: ', this.triggerDelay, 'sec');
+		log('Setup: Trigger Delay:', this.triggerDelay, 'sec');
 	} else {
 		this.triggerDelay = 0;
-		log('Setup: Default Trigger Delay: ', this.triggerDelay, 'sec');
+		log('Setup: Default Trigger Delay:', this.triggerDelay, 'sec');
 	}
 	function sectoms(secs) {
 		var ms = ((secs % 60000) * 1000).toFixed(0);
@@ -294,6 +294,7 @@ function homeqttAlarmAccessory(log, config) {
 		that.debug('Setup: Enabled Alarm States -', targetstates);
 		log('Setup Complete');
 	});
+	var timeout;
 	// MQTT Message Received
 	this.client.on('message', function (topic, msg) {
 		var message = msg.toString();
@@ -310,8 +311,8 @@ function homeqttAlarmAccessory(log, config) {
 									let state = stateName(button.alarmState);
 									that.debug('Keyfob Button Pressed:', state, '(', button.alarmState, ')');
 									if (state === 'ALARM_TRIGGERED') {
-										log('Alarm Triggered. You have ', that.triggerDelay ,' secs to disarm')
-										setTimeout(function() {
+										log('Alarm Triggered. You have', that.triggerDelay, 'secs to disarm')
+										timeout = setTimeout(function() {
 											that.securityService.setCharacteristic(Characteristic.SecuritySystemCurrentState, commandTriggered);
 											that.client.publish(that.getCurrentStateTopic, stateTriggered);
 											if (that.keyfob && that.siren.enabled) {
@@ -321,10 +322,11 @@ function homeqttAlarmAccessory(log, config) {
 										}, sectoms(that.triggerDelay));
 									}
 									if (state !== 'ALARM_TRIGGERED') {
+										clearTimeout(timeout);
 										let allowedTargetStates = getAllowedTargetStates(that.targetStates);
 										if (allowedTargetStates.includes(button.alarmState)) {
-											if (state !== 'ALARM_TRIGGERED' || state !== 'DISARM' || state !== 'DISARMED') {
-												log('Alarm will arm in ', that.armDelay ,' secs')
+											if (state !== 'DISARMED') {
+												log('Alarm will arm in', that.armDelay, 'secs')
 												setTimeout(function() {
 													that.securityService.setCharacteristic(Characteristic.SecuritySystemTargetState, button.alarmState);
 												}, sectoms(that.armDelay));
@@ -370,69 +372,61 @@ function homeqttAlarmAccessory(log, config) {
 					break;
 			}
 			if (message == commandTriggered) {			
-				log('Trigger Delay: ', that.triggerDelay, 'secs');
+				log('Trigger Delay:', that.triggerDelay, 'secs');
 			} else if (message == commandStayArm || message == commandNightArm || message == commandAwayArm){
-				log('Arm Delay: ', that.armDelay, 'secs');
+				log('Arm Delay:', that.armDelay, 'secs');
 			}
 			// Set HomeKit state to alarm state
 			if (message !== null) {
 				that.readstate = message;
-				if (message !== commandDisarmed || message !== commandTriggered) {
-					delay = that.armDelay;
-				} else if (message == commandTriggered){
-					delay = that.armDelay;
-				} else {
-					delay = 0;
-				}
-				setTimeout(function() {
-					that.securityService.getCharacteristic(Characteristic.SecuritySystemCurrentState, that.readstate);
-					// Set Siren State if siren enabled
-					var set = 0;
-					while (set < 1) {
-						if (that.keyfob && that.siren.enabled) {
-							for (let keyfob in that.keyfobs) {
-								if (keyfob) {
-									if (that.keyfobs[keyfob].enabled) {
-										let buttons = that.keyfobs[keyfob].buttons;
-										for (let button in buttons) {
-											if (button) {
-												button = buttons[button];
-												if (button.enabled && button.alarmState === that.readstate) {
-													let state = stateName(button.alarmState);
-													let allowedTargetStates = getAllowedTargetStates(that.targetStates);
-													if (allowedTargetStates.includes(button.alarmState) || that.readstate === 4) {
-														that.client.publish(button.rfkeyTopic, button.MQTTCode);
-														set++;
-														that.debug('MQTT Code', button.MQTTCode, 'published to', button.rfkeyTopic);
-													} else {
-														that.debug('Button pressed:', state, '- Alarm state not enabled in HomeKit. MQTT Code not sent.');
-													}
+				clearTimeout(timeout);
+				that.securityService.getCharacteristic(Characteristic.SecuritySystemCurrentState, that.readstate);
+				// Set Siren State if siren enabled
+				var set = 0;
+				while (set < 1) {
+					if (that.keyfob && that.siren.enabled) {
+						for (let keyfob in that.keyfobs) {
+							if (keyfob) {
+								if (that.keyfobs[keyfob].enabled) {
+									let buttons = that.keyfobs[keyfob].buttons;
+									for (let button in buttons) {
+										if (button) {
+											button = buttons[button];
+											if (button.enabled && button.alarmState === that.readstate) {
+												let state = stateName(button.alarmState);
+												let allowedTargetStates = getAllowedTargetStates(that.targetStates);
+												if (allowedTargetStates.includes(button.alarmState) || that.readstate === 4) {
+													that.client.publish(button.rfkeyTopic, button.MQTTCode);
+													set++;
+													that.debug('MQTT Code', button.MQTTCode, 'published to', button.rfkeyTopic);
+												} else {
+													that.debug('Button pressed:', state, '- Alarm state not enabled in HomeKit. MQTT Code not sent.');
 												}
 											}
 										}
 									}
-									if (set === 1) {
-										break;
-									}
+								}
+								if (set === 1) {
+									break;
 								}
 							}
 						}
-						break;
 					}
-					if (config.debug === true) {
-						let allowedTargetStates = getAllowedTargetStates(that.targetStates);
-						if (allowedTargetStates.includes(that.readstate) || that.readstate === 4) {
-							let sirenState = stateName(that.readstate);
-							that.debug('Siren Status:', sirenState);
-						}
+					break;
+				}
+				if (config.debug === true) {
+					let allowedTargetStates = getAllowedTargetStates(that.targetStates);
+					if (allowedTargetStates.includes(that.readstate) || that.readstate === 4) {
+						let sirenState = stateName(that.readstate);
+						that.debug('Siren Status:', sirenState);
 					}
-				}, sectoms(delay));
+				}
 			}
 		}
 		// Trigger Alarm Function
 		function triggerAlarm() {
-			log('Alarm Triggered. You have ', that.triggerDelay ,' secs to disarm')
-			setTimeout(function() {
+			log('Alarm Triggered. You have', that.triggerDelay, 'secs to disarm')
+			timeout = setTimeout(function() {
 				// MQTT Publish Triggered 
 				that.client.publish(that.setTargetStateTopic, stateTriggered);
 				// Trigger Alarm in HomeKit
@@ -464,7 +458,7 @@ function homeqttAlarmAccessory(log, config) {
 					}
 					break;
 				}
-			  }, sectoms(that.triggerDelay));
+			}, sectoms(that.triggerDelay));
 		}
 		// Sensor topic messages (triggered messages)
 		if (topic == that.messageTopic) {
@@ -487,7 +481,6 @@ function homeqttAlarmAccessory(log, config) {
 		}
 	});
 }
-
 homeqttAlarmAccessory.prototype = {
 	// Get and Set states
 	setTargetState: function (state, callback) {

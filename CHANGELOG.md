@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v3.1.0](https://github.com/danieljbnz/homebridge-homeqtt-alarm/compare/v3.0.9...v3.1.0) (2022-02-20)
 ### Added
 - Alarm Arm/Trigger Delay - enter time delay in seconds. This defaults to 0. 
+  - The Arm Delay only works when using a Keyfob as Homekit switches on immediately when using the switch in the Home app.
 
 ### Update 
 - Updated remote NPM dependency versions due to two Security vulnerabilities found in glob-parent and bl.
