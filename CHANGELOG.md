@@ -11,6 +11,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Option to override topic per sensor (would default to 'messageTopic'). This allows you to get sensor activity from multiple topics.
 - Show sensors in HomeKit as individual items
 
+## [v3.1.1](https://github.com/danieljbnz/homebridge-homeqtt-alarm/compare/v3.1.0...v3.1.1) (2022-03-27)
+### Update 
+- Bumps [minimist](https://github.com/substack/minimist) from 1.2.5 to 1.2.6.
+  - [Release notes](https://github.com/substack/minimist/releases)
+  - [Commits](substack/minimist@1.2.5...1.2.6)
+
+- Updated-dependencies:
+  - dependency-name: minimist
+  - dependency-type: indirect
+
 ## [v3.1.0](https://github.com/danieljbnz/homebridge-homeqtt-alarm/compare/v3.0.9...v3.1.0) (2022-02-20)
 ### Added
 - Alarm Arm/Trigger Delay - enter time delay in seconds. This defaults to 0. 
